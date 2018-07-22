@@ -33,6 +33,7 @@ export class CollectionPageComponent implements OnInit {
   bills$: Observable<Bill[]>;
 
   constructor(private store: Store<fromBills.State>) {
+    this.bills$ = store.pipe(select(fromBills.getBillCollection));
   }
 
   ngOnInit() {

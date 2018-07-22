@@ -5,9 +5,11 @@ import { MaterialModule } from '../material';
 
 import { BillsRoutingModule } from './bills-routing.module';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 import { reducers } from './reducers';
 import { CollectionPageComponent } from './containers/collection-page';
+import { CollectionEffects } from './effects/collection';
 
 @NgModule({
   imports: [
@@ -21,6 +23,7 @@ import { CollectionPageComponent } from './containers/collection-page';
      * the existing state.
      */
     StoreModule.forFeature('bills', reducers),
+    EffectsModule.forFeature([CollectionEffects]),
   ],
   declarations: [
     CollectionPageComponent,
