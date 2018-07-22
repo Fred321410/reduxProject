@@ -1,0 +1,22 @@
+<rp-layout>
+    <rp-sidenav [open]="showSidenav$ | async">
+      <rp-nav-item (navigate)="closeSidenav()" *ngIf="loggedIn$ | async" routerLink="/" icon="list" hint="View your bill collection">
+        My Collection
+      </rp-nav-item>
+      <rp-nav-item (navigate)="closeSidenav()" *ngIf="loggedIn$ | async" routerLink="/bills/find"
+      icon="search" hint="Find your next bill!">
+        Browse Bills
+      </rp-nav-item>
+      <rp-nav-item (navigate)="closeSidenav()" *ngIf="!(loggedIn$ | async)">
+        Sign In
+      </rp-nav-item>
+      <rp-nav-item (navigate)="logout()" *ngIf="loggedIn$ | async">
+        Sign Out
+      </rp-nav-item>
+    </rp-sidenav>
+    <rp-toolbar (openMenu)="openSidenav()">
+      Bill Collection
+    </rp-toolbar>
+
+    <router-outlet></router-outlet>
+  </rp-layout>

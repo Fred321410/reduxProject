@@ -1,22 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {StoreRouterConnectingModule, routerReducer, RouterStateSerializer} from '@ngrx/router-store';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './core/containers/app';
 import {RouterModule} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
+import { routes } from './routes';
 import { reducers, metaReducers } from './reducers';
 import { CustomRouterStateSerializer } from './shared/utils';
 import {EffectsModule} from '@ngrx/effects';
+import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     /**
      * StoreModule.forRoot is imported once in the root module, accepting a reducer
      * function or object map of reducer functions. If passed an object of
@@ -25,9 +27,7 @@ import {EffectsModule} from '@ngrx/effects';
      * based application.
      */
     StoreModule.forRoot(reducers, { metaReducers }),
-    RouterModule.forRoot([
-      // routes
-    ]),
+    RouterModule.forRoot(routes),
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router', // name of reducer key
     }),
@@ -43,6 +43,9 @@ import {EffectsModule} from '@ngrx/effects';
      * See: https://github.com/ngrx/platform/blob/master/docs/effects/api.md#forroot
      */
     EffectsModule.forRoot([]),
+    CoreModule.forRoot(),
+    AuthModule.forRoot(),
+
   ],
   providers: [
     /**
