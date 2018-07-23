@@ -14,11 +14,13 @@ import { CustomRouterStateSerializer } from './shared/utils';
 import {EffectsModule} from '@ngrx/effects';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     /**
      * StoreModule.forRoot is imported once in the root module, accepting a reducer
      * function or object map of reducer functions. If passed an object of
