@@ -8,7 +8,7 @@ router.use(function timeLog(req, res, next) {
 });
 // define the home page route
 router.get('/', function(req, res) {
-  res.status(200).json([{id: 1}, {id: 2}]);
+  res.status(200).json([{id: 1, description: 'Facture EDF'}, {id: 2, description: 'CB Carrefour'}]);
 });
 
 module.exports = router;

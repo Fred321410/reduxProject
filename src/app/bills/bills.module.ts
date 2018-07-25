@@ -10,12 +10,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './reducers';
 import { CollectionPageComponent } from './containers/collection-page';
 import { CollectionEffects } from './effects/collection';
+import {ComponentsModule} from './components';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
     BillsRoutingModule,
+    ComponentsModule,
         /**
      * StoreModule.forFeature is used for composing state
      * from feature modules. These modules can be loaded

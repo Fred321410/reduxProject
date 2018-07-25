@@ -13,13 +13,9 @@ import { Bill } from '../models/bill';
     <mat-card>
       <mat-card-title>My Collection</mat-card-title>
     </mat-card>
+
+    <rp-bill-preview-list [bills]="bills$ | async"></rp-bill-preview-list>
   `,
-  /**
-   * Container components are permitted to have just enough styles
-   * to bring the view together. If the number of styles grow,
-   * consider breaking them out into presentational
-   * components.
-   */
   styles: [
     `
     mat-card-title {
