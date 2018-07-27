@@ -14,7 +14,10 @@ import { Bill } from '../models/bill';
       <mat-card-title>My Collection</mat-card-title>
     </mat-card>
 
-    <rp-bill-preview-list [bills]="bills$ | async"></rp-bill-preview-list>
+    <rp-bill-preview-list
+    [bills]="bills$ | async"
+    [expandedElement]="expendElement$ | async"
+    (expendElement)="expendElement($event)"></rp-bill-preview-list>
   `,
   styles: [
     `
@@ -27,9 +30,15 @@ import { Bill } from '../models/bill';
 })
 export class CollectionPageComponent implements OnInit {
   bills$: Observable<Bill[]>;
+  expendElement$: Observable<Bill>;
 
   constructor(private store: Store<fromBills.State>) {
     this.bills$ = store.pipe(select(fromBills.getBillCollection));
+    this.expendElement$ = store.pipe(select(fromBills.getCollectionExpendElement));
+  }
+
+  expendElement(bill: Bill) {
+    this.store.dispatch(new collection.ExpendBillRow(bill));
   }
 
   ngOnInit() {

@@ -98,6 +98,10 @@ export const getCollectionLoading = createSelector(
   getCollectionState,
   fromCollection.getLoading
 );
+export const getCollectionExpendElement = createSelector(
+  getCollectionState,
+  fromCollection.getExpandedElement
+);
 export const getCollectionBillIds = createSelector(
   getCollectionState,
   fromCollection.getIds

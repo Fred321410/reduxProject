@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {Bill} from '../models/bill';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -33,7 +33,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
       <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
           class="example-element-row"
           [class.example-expanded-row]="expandedElement === element"
-          (click)="expandedElement = element">
+          (click)="expendElement.emit(element)">
       </tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
@@ -43,7 +43,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class BillPreviewListComponent {
   @Input() bills: Bill[];
+  @Input() expandedElement: Bill;
+  @Output() expendElement = new EventEmitter<Bill>();
+
 
   columnsToDisplay = ['date', 'amount'];
-  expandedElement: Bill; // TODO REDUX
 }

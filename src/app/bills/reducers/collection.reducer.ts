@@ -2,17 +2,20 @@ import {
   CollectionActionTypes,
   CollectionActions,
 } from './../actions/collections';
+import { Bill } from '../models/bill';
 
 export interface State {
   loaded: boolean;
   loading: boolean;
   ids: string[];
+  expandedElement: Bill;
 }
 
 const initialState: State = {
   loaded: false,
   loading: false,
   ids: [],
+  expandedElement: null
 };
 
 export function reducer(
@@ -32,6 +35,7 @@ export function reducer(
         loaded: true,
         loading: false,
         ids: action.payload.map(bill => bill.id),
+        expandedElement: null
       };
     }
 
@@ -54,6 +58,12 @@ export function reducer(
         ids: state.ids.filter(id => id !== action.payload.id),
       };
     }
+    case CollectionActionTypes.ExpendBillRow: {
+      return {
+        ...state,
+        expandedElement: action.payload,
+      };
+    }
 
     default: {
       return state;
@@ -66,3 +76,5 @@ export const getLoaded = (state: State) => state.loaded;
 export const getLoading = (state: State) => state.loading;
 
 export const getIds = (state: State) => state.ids;
+
+export const getExpandedElement = (state: State) => state.expandedElement;

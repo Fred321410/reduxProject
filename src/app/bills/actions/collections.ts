@@ -11,6 +11,7 @@ export enum CollectionActionTypes {
   Load = '[Collection] Load',
   LoadSuccess = '[Collection] Load Success',
   LoadFail = '[Collection] Load Fail',
+  ExpendBillRow = '[Collection] Expend Row'
 }
 
 /**
@@ -74,6 +75,12 @@ export class LoadFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class ExpendBillRow implements Action {
+  readonly type = CollectionActionTypes.ExpendBillRow;
+
+  constructor(public payload: Bill) {}
+}
+
 export type CollectionActions =
   | AddBill
   | AddBillSuccess
@@ -83,4 +90,5 @@ export type CollectionActions =
   | RemoveBillFail
   | Load
   | LoadSuccess
-  | LoadFail;
+  | LoadFail
+  | ExpendBillRow;
