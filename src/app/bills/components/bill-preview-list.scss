@@ -1,6 +1,5 @@
 table {
   width: 100%;
-  margin-top: 15px;
 }
 
 tr.example-detail-row {
@@ -45,4 +44,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-description-attribution {
   opacity: 0.5;
+}
+
+.container-bill {
+  margin: 15px;
 }
