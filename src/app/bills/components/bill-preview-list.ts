@@ -37,6 +37,9 @@ import { detailExpandAnimation } from '../../shared/animations';
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
     </div>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
 <!--    <rp-bill-preview *ngFor="let bill of bills" [bill]="bill"></rp-bill-preview>-->
   `,
   styleUrls: ['./bill-preview-list.scss']

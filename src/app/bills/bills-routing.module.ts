@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CollectionPageComponent } from './containers/collection-page';
+import { BillAddComponent } from './components/bill-add';
 
 export const routes: Routes = [
-  { path: '', component: CollectionPageComponent },
+  { path: '', component: CollectionPageComponent,
+  children: [
+    { path: 'add', component: BillAddComponent }
+  ]},
 ];
 
 @NgModule({

@@ -6,10 +6,12 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../material';
 import {BillPreviewComponent} from './bill-preview';
 import {BillPreviewListComponent} from './bill-preview-list';
+import { BillAddComponent } from './bill-add';
 
 export const COMPONENTS = [
   BillPreviewComponent,
-  BillPreviewListComponent
+  BillPreviewListComponent,
+  BillAddComponent
 ];
 
 @NgModule({
