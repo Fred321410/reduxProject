@@ -8,9 +8,9 @@ export enum CollectionActionTypes {
   RemoveBill = '[Collection] Remove Bill',
   RemoveBillSuccess = '[Collection] Remove Bill Success',
   RemoveBillFail = '[Collection] Remove Bill Fail',
-  Load = '[Collection] Load',
-  LoadSuccess = '[Collection] Load Success',
-  LoadFail = '[Collection] Load Fail',
+  Load = '[Collection] Load Bills',
+  LoadSuccess = '[Collection] Load Bills Success',
+  LoadFail = '[Collection] Load Bills Fail',
   ExpendBillRow = '[Collection] Expend Row'
 }
 

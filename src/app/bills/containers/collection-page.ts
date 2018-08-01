@@ -7,13 +7,9 @@ import * as collection from '../actions/collections';
 import { Bill } from '../models/bill';
 
 @Component({
-  selector: 'rp-collection-page',
+  selector: 'rp-collection-bills-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <mat-card>
-      <mat-card-title>My Collection</mat-card-title>
-    </mat-card>
-
     <rp-bill-preview-list
     [bills]="bills$ | async"
     [expandedElement]="expendElement$ | async"

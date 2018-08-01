@@ -1,7 +1,7 @@
 import {
   CollectionActionTypes,
   CollectionActions,
-} from './../actions/collections';
+} from '../actions/collections';
 import { Bill } from '../models/bill';
 
 export interface State {

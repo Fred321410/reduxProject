@@ -4,12 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from '../../material';
-import {BillPreviewListComponent} from './bill-preview-list';
-import { BillAddComponent } from './bill-add';
+import { LocalisationPreviewListComponent } from './localisation-preview-list';
+import { LocalisationAddComponent } from './localisation-add';
+
 
 export const COMPONENTS = [
-  BillPreviewListComponent,
-  BillAddComponent
+  LocalisationPreviewListComponent,
+  LocalisationAddComponent
 ];
 
 @NgModule({

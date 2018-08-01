@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import {StoreRouterConnectingModule, routerReducer, RouterStateSerializer} from '@ngrx/router-store';
+import {StoreRouterConnectingModule, RouterStateSerializer} from '@ngrx/router-store';
 
 import { AppComponent } from './core/containers/app';
 import {RouterModule} from '@angular/router';

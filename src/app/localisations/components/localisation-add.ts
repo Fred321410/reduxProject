@@ -3,17 +3,17 @@ import {slideInOutAnimation } from '../../shared/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'rp-bill-add',
+  selector: 'rp-localisation-add',
   animations: [slideInOutAnimation],
-  styleUrls: ['./bill-add.scss'],
+  styleUrls: ['./localisation-add.scss'],
   template: `
   <div class="side-form">
-  <h1>Add</h1>
-  <a class="btn btn-default" routerLink="/">Cancel</a>
+  <h1>Add Localisations</h1>
+  <a class="btn btn-default" routerLink="/collection/localisations">Cancel</a>
 </div>
   `,
 })
-export class BillAddComponent {
+export class LocalisationAddComponent {
     @HostBinding('@slideInOutAnimation')
     public slideInOutAnimation = true;
 

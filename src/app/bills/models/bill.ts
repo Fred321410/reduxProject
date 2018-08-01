@@ -1,5 +1,6 @@
-import {Localisation} from './localisation';
+
 import {BillType} from './billType';
+import { Localisation } from '../../localisations/models/localisation';
 
 export interface Bill {
     id: string;

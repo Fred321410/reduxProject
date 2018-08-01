@@ -10,8 +10,8 @@ import {
   LoadSuccess,
   CollectionActionTypes,
 } from '../actions/collections';
-import { Bill } from '../models/bill';
 import { exhaustMap, map, catchError } from 'rxjs/operators';
+import { Localisation } from '../models/localisation';
 
 
 @Injectable()
@@ -21,9 +21,9 @@ export class CollectionEffects {
   loadCollection$: Observable<Action> = this.actions$.pipe(
     ofType(CollectionActionTypes.Load),
     exhaustMap(() =>
-      this.http.get('http://localhost:9000/api/bills').pipe(
+      this.http.get('http://localhost:9000/api/localisations').pipe(
         // If successful, dispatch success action with result
-        map((bills: Bill[]) => new LoadSuccess(bills)),
+        map((localisations: Localisation[]) => new LoadSuccess(localisations)),
         // If request fails, dispatch failed action
         catchError(error => of(new LoadFail(error)))
       )
