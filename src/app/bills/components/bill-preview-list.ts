@@ -40,7 +40,6 @@ import { detailExpandAnimation } from '../../shared/animations';
     <div>
       <router-outlet></router-outlet>
     </div>
-<!--    <rp-bill-preview *ngFor="let bill of bills" [bill]="bill"></rp-bill-preview>-->
   `,
   styleUrls: ['./bill-preview-list.scss']
 })

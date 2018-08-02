@@ -7,8 +7,9 @@ import { detailExpandAnimation } from '../../shared/animations';
   template: `
     <div class="container-localisation">
       <button style="margin-bottom: 15px" mat-raised-button routerLink="add"><mat-icon>add</mat-icon>Ajouter</button>
-    <div>
-      <router-outlet></router-outlet>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
     </div>
   `,
   styleUrls: ['./localisation-preview-list.scss']
