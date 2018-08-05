@@ -5,6 +5,7 @@ export enum CollectionActionTypes {
   AddBill = '[Collection] Add Bill',
   AddBillSuccess = '[Collection] Add Bill Success',
   AddBillFail = '[Collection] Add Bill Fail',
+  AddBillCancel = '[Collection] Add Bill Cancel',
   RemoveBill = '[Collection] Remove Bill',
   RemoveBillSuccess = '[Collection] Remove Bill Success',
   RemoveBillFail = '[Collection] Remove Bill Fail',
@@ -33,6 +34,12 @@ export class AddBillFail implements Action {
   readonly type = CollectionActionTypes.AddBillFail;
 
   constructor(public payload: Bill) {}
+}
+
+export class AddBillCancel implements Action {
+  readonly type = CollectionActionTypes.AddBillCancel;
+
+  constructor() {}
 }
 
 /**
@@ -85,6 +92,7 @@ export type CollectionActions =
   | AddBill
   | AddBillSuccess
   | AddBillFail
+  | AddBillCancel
   | RemoveBill
   | RemoveBillSuccess
   | RemoveBillFail

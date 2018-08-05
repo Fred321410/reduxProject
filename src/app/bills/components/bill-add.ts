@@ -1,11 +1,9 @@
-import { Component, HostBinding} from '@angular/core';
-import {slideInOutAnimation } from '../../shared/animations';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Output, EventEmitter} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Bill } from '../models/bill';
 
 @Component({
   selector: 'rp-bill-add',
-  animations: [slideInOutAnimation],
   styleUrls: ['./bill-add.scss'],
   template: `
   <div class="side-form">
@@ -32,10 +30,11 @@ import { FormGroup, FormControl } from '@angular/forms';
   `,
 })
 export class BillAddComponent {
-    @HostBinding('@slideInOutAnimation')
-    public slideInOutAnimation = true;
 
-    constructor(private route: ActivatedRoute, private router: Router) { }
+    @Output() submitted = new EventEmitter<Bill>();
+    @Output() cancelEvent = new EventEmitter<any>();
+
+    constructor() { }
 
     form: FormGroup = new FormGroup({
       date: new FormControl(''),
@@ -43,10 +42,12 @@ export class BillAddComponent {
     });
 
     submit() {
-        this.router.navigate(['../']);
+      if (this.form.valid) {
+        this.submitted.emit(this.form.value);
+      }
     }
 
     cancel() {
-      this.router.navigate(['../']);
+      this.cancelEvent.emit();
     }
 }

@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: 'collection',
     loadChildren: './collection/collection.module#CollectionModule',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   { path: '**', component: NotFoundPageComponent },
 ];

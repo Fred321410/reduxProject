@@ -39,7 +39,16 @@ export function reducer(
       };
     }
 
-    case CollectionActionTypes.AddBillSuccess:
+    case CollectionActionTypes.AddBillSuccess: {
+      if (state.ids.indexOf(action.payload.id) > -1) {
+        return state;
+      }
+
+      return {
+        ...state,
+        ids: [...state.ids, action.payload.id],
+      };
+    }
     case CollectionActionTypes.RemoveBillFail: {
       if (state.ids.indexOf(action.payload.id) > -1) {
         return state;

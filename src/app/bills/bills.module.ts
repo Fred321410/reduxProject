@@ -11,6 +11,7 @@ import { reducers } from './reducers';
 import { CollectionPageComponent } from './containers/collection-page';
 import { CollectionEffects } from './effects/collection';
 import {ComponentsModule} from './components';
+import { BIllAddPageComponent } from './containers/bill-add-page';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import {ComponentsModule} from './components';
   ],
   declarations: [
     CollectionPageComponent,
+    BIllAddPageComponent
   ],
   providers: [],
 })

@@ -1,4 +1,4 @@
-import { createSelector } from '@ngrx/store';
+
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { Bill } from '../models/bill';
 import { BillActions, BillActionTypes } from '../actions/bills';
@@ -27,7 +27,7 @@ export interface State extends EntityState<Bill> {
  * function if the records are to be sorted.
  */
 export const adapter: EntityAdapter<Bill> = createEntityAdapter<Bill>({
-  selectId: (book: Bill) => book.id,
+  selectId: (bill: Bill) => bill.id,
   sortComparer: false,
 });
 
@@ -55,6 +55,19 @@ export function reducer(
        * sort each record upon entry into the sorted array.
        */
       return adapter.addMany(action.payload, {
+        ...state,
+        selectedBillId: state.selectedBillId,
+      });
+    }
+    case CollectionActionTypes.AddBillSuccess: {
+      /**
+       * The addMany function provided by the created adapter
+       * adds many records to the entity dictionary
+       * and returns a new state including those records. If
+       * the collection is to be sorted, the adapter will
+       * sort each record upon entry into the sorted array.
+       */
+      return adapter.addOne(action.payload, {
         ...state,
         selectedBillId: state.selectedBillId,
       });
