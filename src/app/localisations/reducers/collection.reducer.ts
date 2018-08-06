@@ -6,7 +6,7 @@ import {
 export interface State {
   loaded: boolean;
   loading: boolean;
-  ids: string[];
+  ids: number[];
 }
 
 const initialState: State = {
@@ -20,8 +20,20 @@ export function reducer(
   action: CollectionActions
 ): State {
   switch (action.type) {
-    case CollectionActionTypes.Load:
-    case CollectionActionTypes.LoadSuccess:
+    case CollectionActionTypes.Load: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case CollectionActionTypes.LoadSuccess: {
+      console.log(action);
+      return {
+        loaded: true,
+        loading: false,
+        ids: action.payload.map(localisation => localisation.id),
+      };
+    }
     case CollectionActionTypes.AddLocalisationSuccess:
     case CollectionActionTypes.RemoveLocalisationFail:
     case CollectionActionTypes.RemoveLocalisationSuccess:

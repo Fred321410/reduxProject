@@ -5,6 +5,7 @@ var express = require('express'),
   http = require('http'),
   path = require('path'),
   bills = require('./routes/bills'),
+  localisations = require('./routes/localisations'),
   cors = require('cors');
 
 var app = express();
@@ -24,6 +25,7 @@ app.use(function (req, res, next) {
 // JSON API
 
 app.use('/api/bills', bills);
+app.use('/api/localisations', localisations);
 
 
 app.listen(app.get('port'), function () {

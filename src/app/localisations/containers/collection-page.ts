@@ -26,6 +26,6 @@ export class CollectionPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store.dispatch(new collection.Load());
+    this.store.dispatch(new collection.Load());
   }
 }
