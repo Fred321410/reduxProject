@@ -6,11 +6,14 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../material';
 import { LocalisationPreviewListComponent } from './localisation-preview-list';
 import { LocalisationAddComponent } from './localisation-add';
+import { LocalisationPreviewComponent } from './localisation-preview';
+import { PipesModule } from '../../shared/pipes';
 
 
 export const COMPONENTS = [
   LocalisationPreviewListComponent,
-  LocalisationAddComponent
+  LocalisationAddComponent,
+  LocalisationPreviewComponent
 ];
 
 @NgModule({
@@ -19,6 +22,7 @@ export const COMPONENTS = [
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
+    PipesModule,
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,

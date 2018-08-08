@@ -8,7 +8,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 let localisations = [
-  {id: 1, description: 'Carrefour city', city: 'Nantes', tag: [], type: ['ALIMENTATION', 'SUPERMARCHE']}
+  {id: 1, name: 'Carrefour city', description: 'Au coin de la rue', city: 'Nantes', tag: [], type: ['ALIMENTATION', 'SUPERMARCHE']}
 ];
 // define the home page route
 router.get('/', function(req, res) {

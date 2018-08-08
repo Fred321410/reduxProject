@@ -31,7 +31,8 @@ export interface Bill {
         city: 'Nantes',
         type: [''],
         description: '',
-        tag: ['']
+        tag: [''],
+        name: ''
       },
       description: 'mock'
     };

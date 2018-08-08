@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 
 import * as fromLocalisation from '../reducers';
 import * as collection from '../actions/collections';
+import { Localisation } from '../models/localisation';
 
 @Component({
   selector: 'rp-collection-localisation-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <rp-localisation-preview-list></rp-localisation-preview-list>
+    <rp-localisation-preview-list [localisations]="localisations$ | async"></rp-localisation-preview-list>
   `,
   styles: [
     `
@@ -22,7 +23,10 @@ import * as collection from '../actions/collections';
 })
 export class CollectionPageComponent implements OnInit {
 
+  localisations$: Observable<Localisation[]>;
+
   constructor(private store: Store<fromLocalisation.State>) {
+    this.localisations$ = store.pipe(select(fromLocalisation.getLocalisationCollection));
   }
 
   ngOnInit() {
