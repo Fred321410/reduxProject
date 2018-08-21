@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {slideRightLeftAnimation} from '../../shared/animations';
 
 @Component({
   selector: 'rp-collection-page',
+  animations: [ slideRightLeftAnimation ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <mat-card>
@@ -15,12 +15,13 @@ import { Observable } from 'rxjs';
         *ngFor="let link of navLinks"
         [routerLink]="link.path"
         routerLinkActive #rla="routerLinkActive"
-        [active]="rla.isActive">
+        [active]="rla.isActive" (click)="activeNavLinkIndex = link.index">
         {{link.label}}
       </a>
     </nav>
-
-    <router-outlet></router-outlet>
+    <div [@slideRightLeftAnimation]="collection.isActivated ? activeNavLinkIndex : 0">
+      <router-outlet #collection="outlet"></router-outlet>
+    </div>
   `,
   styles: [
     `
@@ -36,13 +37,16 @@ export class CollectionPageComponent {
   navLinks = [
     {
       label: 'Bills',
-      path: 'bills'
+      path: 'bills',
+      index: 1
     },
     {
       label: 'Localisations',
-      path: 'localisations'
+      path: 'localisations',
+      index: 2
     }
   ];
+  activeNavLinkIndex = 0;
 
   constructor() {
   }
