@@ -17,19 +17,10 @@ import { Localisation } from '../models/localisation';
   `,
   styles: [
     `
-    :host {
-      display: flex;
-    }
-
-    :host a {
-      display: flex;
-    }
-
     mat-card {
       width: 400px;
       margin: 15px;
-      display: flex;
-      flex-flow: column;
+
       justify-content: space-between;
     }
 

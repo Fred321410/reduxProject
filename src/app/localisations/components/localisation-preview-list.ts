@@ -8,7 +8,11 @@ import { Localisation, generateMockLocalisation } from '../models/localisation';
   template: `
     <div class="container-localisation">
       <button style="margin-bottom: 15px" mat-raised-button (click)="add()"><mat-icon>add</mat-icon>Ajouter</button>
-      <rp-localisation-preview *ngFor="let localisation of localisationsTest" [localisation]="localisation"></rp-localisation-preview>
+      <mat-grid-list cols="4" rowHeight="3:1">
+        <mat-grid-tile *ngFor="let localisation of localisationsTest">
+          <rp-localisation-preview [localisation]="localisation"></rp-localisation-preview>
+        </mat-grid-tile>
+      </mat-grid-list>
       <div>
         <router-outlet></router-outlet>
       </div>
