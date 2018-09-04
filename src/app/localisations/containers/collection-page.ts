@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import * as fromLocalisation from '../reducers';
 import * as collection from '../actions/collections';
 import { Localisation } from '../models/localisation';
-import * as fromBills from '../../bills/reducers';
 
 @Component({
   selector: 'rp-collection-localisation-page',

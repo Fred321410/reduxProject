@@ -8,11 +8,11 @@ import { of } from 'rxjs';
 import {
   LoadFail,
   LoadSuccess,
-  CollectionActionTypes,
+  CollectionActionTypes, AddLocalisation, AddLocalisationFail, AddLocalisationSuccess,
 } from '../actions/collections';
-import { exhaustMap, map, catchError } from 'rxjs/operators';
+import {exhaustMap, map, catchError, tap} from 'rxjs/operators';
 import { Localisation } from '../models/localisation';
-
+import {Router} from '@angular/router';
 
 @Injectable()
 export class CollectionEffects {
@@ -30,6 +30,32 @@ export class CollectionEffects {
     )
   );
 
+  @Effect()
+  addLocalisationToCollection$: Observable<Action> = this.actions$.pipe(
+    ofType(CollectionActionTypes.AddLocalisation),
+    map((action: AddLocalisation) => action.payload),
+    exhaustMap(localisation =>
+      this.http.post('http://localhost:9000/api/localisations', localisation).pipe(
+        // If successful, dispatch success action with result
+        map((localisationAdded: Localisation) => new AddLocalisationSuccess(localisationAdded)),
+        // If request fails, dispatch failed action
+        catchError(error => of(new AddLocalisationFail(localisation)))
+      )
+    )
+  );
 
-  constructor(private http: HttpClient, private actions$: Actions) {}
+  @Effect({ dispatch: false })
+  addLocalisationSuccess$ = this.actions$.pipe(
+    ofType(CollectionActionTypes.AddLocalisationSuccess),
+    tap(() => this.router.navigate(['collection/localisations']))
+  );
+
+  @Effect({ dispatch: false })
+  addLocalisationCancel$ = this.actions$.pipe(
+    ofType(CollectionActionTypes.AddLocalisationCancel),
+    tap(() => this.router.navigate(['collection/localisations']))
+  );
+
+
+  constructor(private http: HttpClient, private actions$: Actions, private router: Router) {}
 }

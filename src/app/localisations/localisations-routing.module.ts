@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CollectionPageComponent } from './containers/collection-page';
-import { LocalisationAddComponent } from './components/localisation-add';
+import {LocalisationAddPageComponent} from './containers/localisation-add-page';
 
 export const routes: Routes = [
   { path: '', component: CollectionPageComponent,
   children: [
-    { path: 'add', component: LocalisationAddComponent }
+    { path: 'add', component: LocalisationAddPageComponent }
   ]},
 ];
 

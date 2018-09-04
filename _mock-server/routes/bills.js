@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
   var bill = req.body;
-  bill.id = 3;
+  bill.id = bills.length + 1;
   bill.date = moment(bill.date).format('DD/MM/YYYY');
   bills.push(bill);
   res.status(200).json(bill);

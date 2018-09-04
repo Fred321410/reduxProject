@@ -49,10 +49,24 @@ export function reducer(
         };
       }
     }
-    case CollectionActionTypes.AddLocalisationSuccess:
+    case CollectionActionTypes.AddLocalisationSuccess: {
+      if (state.ids.indexOf(action.payload.id) > -1) {
+        return state;
+      }
+
+      return {
+        ...state,
+        ids: [...state.ids, action.payload.id],
+      };
+    }
     case CollectionActionTypes.RemoveLocalisationFail:
     case CollectionActionTypes.RemoveLocalisationSuccess:
-    case CollectionActionTypes.AddLocalisationFail:
+    case CollectionActionTypes.AddLocalisationFail: {
+      return {
+        ...state,
+        ids: state.ids.filter(id => id !== action.payload.id),
+      };
+    }
 
     default: {
       return state;

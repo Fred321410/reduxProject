@@ -12,3 +12,12 @@
     padding: 20px;
     border-left: 1px solid #e0e0e0;
 }
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.example-container > * {
+  width: 100%;
+}

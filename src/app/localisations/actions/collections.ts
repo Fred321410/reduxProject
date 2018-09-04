@@ -5,6 +5,7 @@ export enum CollectionActionTypes {
   AddLocalisation = '[Collection] Add Localisation',
   AddLocalisationSuccess = '[Collection] Add Localisation Success',
   AddLocalisationFail = '[Collection] Add Localisation Fail',
+  AddLocalisationCancel = '[Collection] Add Localisation Cancel',
   RemoveLocalisation = '[Collection] Remove Localisation',
   RemoveLocalisationSuccess = '[Collection] Remove Localisation Success',
   RemoveLocalisationFail = '[Collection] Remove Localisation Fail',
@@ -33,6 +34,12 @@ export class AddLocalisationFail implements Action {
   readonly type = CollectionActionTypes.AddLocalisationFail;
 
   constructor(public payload: Localisation) {}
+}
+
+export class AddLocalisationCancel implements Action {
+  readonly type = CollectionActionTypes.AddLocalisationCancel;
+
+  constructor() {}
 }
 
 /**
@@ -85,6 +92,7 @@ export type CollectionActions =
   | AddLocalisation
   | AddLocalisationSuccess
   | AddLocalisationFail
+  | AddLocalisationCancel
   | RemoveLocalisation
   | RemoveLocalisationSuccess
   | RemoveLocalisationFail

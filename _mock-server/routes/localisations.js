@@ -15,5 +15,12 @@ router.get('/', function(req, res) {
   res.status(200).json(localisations);
 });
 
+router.post('/', function(req, res) {
+  var localisation = req.body;
+  localisation.id = localisations.length + 1;
+  localisations.push(localisation);
+  res.status(200).json(localisation);
+});
+
 
 module.exports = router;

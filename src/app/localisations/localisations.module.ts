@@ -11,6 +11,7 @@ import { CollectionPageComponent } from './containers/collection-page';
 import { CollectionEffects } from './effects/collection';
 import {ComponentsModule} from './components';
 import { LocalisationsRoutingModule } from './localisations-routing.module';
+import {LocalisationAddPageComponent} from './containers/localisation-add-page';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { LocalisationsRoutingModule } from './localisations-routing.module';
   ],
   declarations: [
     CollectionPageComponent,
+    LocalisationAddPageComponent
   ],
   providers: [],
 })
