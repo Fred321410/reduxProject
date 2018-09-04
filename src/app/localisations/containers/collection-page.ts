@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 import * as fromLocalisation from '../reducers';
 import * as collection from '../actions/collections';
 import { Localisation } from '../models/localisation';
+import * as fromBills from '../../bills/reducers';
 
 @Component({
   selector: 'rp-collection-localisation-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <rp-localisation-preview-list [localisations]="localisations$ | async"></rp-localisation-preview-list>
+    <rp-localisation-preview-list [localisations]="localisations$ | async"
+                                  [colsNumber]="colsNumber$ | async"
+                                  (colsNumberEvent)="onResize($event)"></rp-localisation-preview-list>
   `,
   styles: [
     `
@@ -24,12 +27,19 @@ import { Localisation } from '../models/localisation';
 export class CollectionPageComponent implements OnInit {
 
   localisations$: Observable<Localisation[]>;
+  colsNumber$: Observable<number>;
 
   constructor(private store: Store<fromLocalisation.State>) {
     this.localisations$ = store.pipe(select(fromLocalisation.getLocalisationCollection));
+    this.colsNumber$ = store.pipe(select(fromLocalisation.getCollectionColsNumber));
   }
 
   ngOnInit() {
     this.store.dispatch(new collection.Load());
+    this.store.dispatch(new collection.ReSize(window.innerWidth));
+  }
+
+  onResize(event) {
+    this.store.dispatch(new collection.ReSize(event));
   }
 }

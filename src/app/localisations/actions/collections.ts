@@ -11,6 +11,7 @@ export enum CollectionActionTypes {
   Load = '[Collection] Load Localisations',
   LoadSuccess = '[Collection] Load Localisations Success',
   LoadFail = '[Collection] Load Localisations Fail',
+  ReSize = '[Collection] Resize Localisations Grid',
 }
 
 /**
@@ -74,6 +75,12 @@ export class LoadFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class ReSize implements Action {
+  readonly type = CollectionActionTypes.ReSize;
+
+  constructor(public payload: number) {}
+}
+
 export type CollectionActions =
   | AddLocalisation
   | AddLocalisationSuccess
@@ -83,4 +90,5 @@ export type CollectionActions =
   | RemoveLocalisationFail
   | Load
   | LoadSuccess
-  | LoadFail;
+  | LoadFail
+  | ReSize;

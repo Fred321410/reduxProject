@@ -67,7 +67,10 @@ export const getCollectionLocalisationIds = createSelector(
   getCollectionState,
   fromCollection.getIds
 );
-
+export const getCollectionColsNumber = createSelector(
+  getCollectionState,
+  fromCollection.getColsNumber
+);
 export const getLocalisationCollection = createSelector(
   getLocalisationEntities,
   getCollectionLocalisationIds,
