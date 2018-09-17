@@ -12,12 +12,14 @@ import { CollectionPageComponent } from './containers/collection-page';
 import { CollectionEffects } from './effects/collection';
 import {ComponentsModule} from './components';
 import { BIllAddPageComponent } from './containers/bill-add-page';
+import {LocalisationsModule} from '../localisations/localisations.module';
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
     BillsRoutingModule,
+    LocalisationsModule,
     ComponentsModule,
         /**
      * StoreModule.forFeature is used for composing state

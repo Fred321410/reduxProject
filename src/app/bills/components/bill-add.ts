@@ -1,6 +1,7 @@
-import { Component, Output, EventEmitter} from '@angular/core';
+import {Component, Output, EventEmitter, Input} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Bill } from '../models/bill';
+import {Localisation} from '../../localisations/models/localisation';
 
 @Component({
   selector: 'rp-bill-add',
@@ -22,6 +23,13 @@ import { Bill } from '../models/bill';
           <input matInput type="number" placeholder="Montant de la facture" formControlName="amount">
           <mat-icon matSuffix>€</mat-icon>
         </mat-form-field>
+
+        <mat-form-field>
+          <mat-select placeholder="Localisation" formControlName="localisation">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let localisation of localisations" [value]="localisation">{{localisation.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <button type="button" mat-raised-button (click)="cancel()"><mat-icon>arrow_back</mat-icon>Cancel</button>
       <button style="float: right" color="primary" type="submit" mat-raised-button>Valider</button>
@@ -31,6 +39,7 @@ import { Bill } from '../models/bill';
 })
 export class BillAddComponent {
 
+    @Input() localisations: Localisation[];
     @Output() submitted = new EventEmitter<Bill>();
     @Output() cancelEvent = new EventEmitter<any>();
 
@@ -39,6 +48,7 @@ export class BillAddComponent {
     form: FormGroup = new FormGroup({
       date: new FormControl(''),
       amount: new FormControl(''),
+      localisation: new FormControl(''),
     });
 
     submit() {

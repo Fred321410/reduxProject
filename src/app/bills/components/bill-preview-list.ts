@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {Bill} from '../models/bill';
 import { detailExpandAnimation } from '../../shared/animations';
+import {Localisation} from '../../localisations/models/localisation';
 
 @Component({
   selector: 'rp-bill-preview-list',
@@ -45,6 +46,7 @@ import { detailExpandAnimation } from '../../shared/animations';
 })
 export class BillPreviewListComponent {
   @Input() bills: Bill[];
+  @Input() localisations: Localisation[];
   @Input() expandedElement: Bill;
   @Output() expendElement = new EventEmitter<Bill>();
 

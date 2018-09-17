@@ -6,6 +6,8 @@ var express = require('express'),
   path = require('path'),
   bills = require('./routes/bills'),
   localisations = require('./routes/localisations'),
+  types = require('./routes/types'),
+  prelevementTypes = require('./routes/prelevementTypes'),
   cors = require('cors');
 
 var app = express();
@@ -26,6 +28,8 @@ app.use(function (req, res, next) {
 
 app.use('/api/bills', bills);
 app.use('/api/localisations', localisations);
+app.use('/api/types', types);
+app.use('/api/prelevementTypes', prelevementTypes);
 
 
 app.listen(app.get('port'), function () {

@@ -1,5 +1,5 @@
 export interface Localisation {
-  id: number;
+  id: string;
   city: string;
   name: string;
   type: string[];
@@ -9,7 +9,7 @@ export interface Localisation {
 
 export function generateMockLocalisation(): Localisation {
   return {
-    id: 1,
+    id: '1',
       city: 'Nantes',
       type: [''],
       name: 'Test',
