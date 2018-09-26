@@ -14,14 +14,6 @@ import { Localisation } from '../models/localisation';
                                   [colsNumber]="colsNumber$ | async"
                                   (colsNumberEvent)="onResize($event)"></rp-localisation-preview-list>
   `,
-  styles: [
-    `
-    mat-card-title {
-      display: flex;
-      justify-content: center;
-    }
-  `,
-  ],
 })
 export class CollectionPageComponent implements OnInit {
 

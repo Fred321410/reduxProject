@@ -44,6 +44,11 @@ export class CollectionPageComponent {
       label: 'Localisations',
       path: 'localisations',
       index: 2
+    },
+    {
+      label: 'Types',
+      path: 'types',
+      index: 3
     }
   ];
   activeNavLinkIndex = 0;

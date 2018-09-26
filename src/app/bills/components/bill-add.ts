@@ -1,5 +1,5 @@
 import {Component, Output, EventEmitter, Input} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { Bill } from '../models/bill';
 import {Localisation} from '../../localisations/models/localisation';
 
@@ -17,11 +17,17 @@ import {Localisation} from '../../localisations/models/localisation';
           <input matInput [matDatepicker]="myDatepicker" placeholder="Date de la facture" formControlName="date">
           <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
           <mat-datepicker #myDatepicker></mat-datepicker>
+          <mat-error>
+            La date est obligatoire
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field>
           <input matInput type="number" placeholder="Montant de la facture" formControlName="amount">
           <mat-icon matSuffix>€</mat-icon>
+          <mat-error>
+            Le montant est obligatoire
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field>
@@ -29,6 +35,9 @@ import {Localisation} from '../../localisations/models/localisation';
             <mat-option>None</mat-option>
             <mat-option *ngFor="let localisation of localisations" [value]="localisation">{{localisation.name}}</mat-option>
           </mat-select>
+          <mat-error>
+            La localisation est obligatoire
+          </mat-error>
         </mat-form-field>
       </div>
       <button type="button" mat-raised-button (click)="cancel()"><mat-icon>arrow_back</mat-icon>Cancel</button>
@@ -39,25 +48,25 @@ import {Localisation} from '../../localisations/models/localisation';
 })
 export class BillAddComponent {
 
-    @Input() localisations: Localisation[];
-    @Output() submitted = new EventEmitter<Bill>();
-    @Output() cancelEvent = new EventEmitter<any>();
+  @Input() localisations: Localisation[];
+  @Output() submitted = new EventEmitter<Bill>();
+  @Output() cancelEvent = new EventEmitter<any>();
 
-    constructor() { }
+  constructor() { }
 
-    form: FormGroup = new FormGroup({
-      date: new FormControl(''),
-      amount: new FormControl(''),
-      localisation: new FormControl(''),
-    });
+  form: FormGroup = new FormGroup({
+    date: new FormControl('', [Validators.required]),
+    amount: new FormControl('', [Validators.required]),
+    localisation: new FormControl('', [Validators.required]),
+  });
 
-    submit() {
-      if (this.form.valid) {
-        this.submitted.emit(this.form.value);
-      }
+  submit() {
+    if (this.form.valid) {
+      this.submitted.emit(this.form.value);
     }
+  }
 
-    cancel() {
-      this.cancelEvent.emit();
-    }
+  cancel() {
+    this.cancelEvent.emit();
+  }
 }

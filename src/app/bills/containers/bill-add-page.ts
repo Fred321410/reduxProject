@@ -1,15 +1,14 @@
 import { Component, ChangeDetectionStrategy, HostBinding } from '@angular/core';
 import { Bill } from '../models/bill';
-import { Router } from '../../../../node_modules/@angular/router';
-import { Store } from '../../../../node_modules/@ngrx/store';
 
 import * as fromBills from '../reducers';
 import * as collection from '../actions/collections';
 import { slideInOutAnimation } from '../../shared/animations';
 import {Observable} from 'rxjs';
 import {Localisation} from '../../localisations/models/localisation';
-import {select} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fromLocalisation from '../../localisations/reducers';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'rp-bill-add-page',

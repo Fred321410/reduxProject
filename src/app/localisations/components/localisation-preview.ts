@@ -18,7 +18,7 @@ import { Localisation } from '../models/localisation';
   styles: [
     `
     mat-card {
-      width: 400px;
+      width: 300px;
       margin: 15px;
 
       justify-content: space-between;

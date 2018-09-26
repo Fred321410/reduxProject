@@ -16,6 +16,9 @@ import {
   MatSelectModule,
   MatDatepickerModule,
   MatGridListModule,
+  MatExpansionModule,
+  MatChipsModule,
+  MatAutocompleteModule,
   MAT_DATE_LOCALE,
 } from '@angular/material';
 
@@ -38,6 +41,9 @@ import { MatMomentDateModule} from '@angular/material-moment-adapter';
     MatDatepickerModule,
     MatMomentDateModule,
     MatGridListModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
   exports: [
     MatInputModule,
@@ -55,6 +61,9 @@ import { MatMomentDateModule} from '@angular/material-moment-adapter';
     MatDatepickerModule,
     MatMomentDateModule,
     MatGridListModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatAutocompleteModule,
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},

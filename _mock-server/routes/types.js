@@ -8,8 +8,8 @@ router.use(function timeLog(req, res, next) {
 });
 
 let types = [
-  {id: 1, name: 'NOURITURE', sousType: []},
-  {id: 1, name: 'IMMOBILIER', sousType: ['EAU']}
+  {id: 1, name: 'NOURITURE', sousType: [], description: 'Example de type nouriture'},
+  {id: 2, name: 'IMMOBILIER', sousType: ['EAU'], description: 'Example de type immobilier'}
 ];
 // define the home page route
 router.get('/', function(req, res) {

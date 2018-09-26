@@ -8,15 +8,11 @@ import { of } from 'rxjs';
 import {
   LoadFail,
   LoadSuccess,
-  CollectionActionTypes,
-  AddBill,
-  AddBillSuccess,
-  AddBillFail,
+  CollectionActionTypes, AddType, AddTypeFail, AddTypeSuccess,
 } from '../actions/collections';
-import { Bill } from '../models/bill';
-import { exhaustMap, map, catchError, tap } from 'rxjs/operators';
+import {exhaustMap, map, catchError, tap} from 'rxjs/operators';
+import { Type } from '../models/type';
 import {Router} from '@angular/router';
-
 
 @Injectable()
 export class CollectionEffects {
@@ -25,9 +21,9 @@ export class CollectionEffects {
   loadCollection$: Observable<Action> = this.actions$.pipe(
     ofType(CollectionActionTypes.Load),
     exhaustMap(() =>
-      this.http.get('http://localhost:9000/api/bills').pipe(
+      this.http.get('http://localhost:9000/api/types').pipe(
         // If successful, dispatch success action with result
-        map((bills: Bill[]) => new LoadSuccess(bills)),
+        map((types: Type[]) => new LoadSuccess(types)),
         // If request fails, dispatch failed action
         catchError(error => of(new LoadFail(error)))
       )
@@ -35,30 +31,31 @@ export class CollectionEffects {
   );
 
   @Effect()
-  addBillToCollection$: Observable<Action> = this.actions$.pipe(
-    ofType(CollectionActionTypes.AddBill),
-    map((action: AddBill) => action.payload),
-    exhaustMap(bill =>
-      this.http.post('http://localhost:9000/api/bills', bill).pipe(
+  addTypeToCollection$: Observable<Action> = this.actions$.pipe(
+    ofType(CollectionActionTypes.AddType),
+    map((action: AddType) => action.payload),
+    exhaustMap(type =>
+      this.http.post('http://localhost:9000/api/types', type).pipe(
         // If successful, dispatch success action with result
-        map((billAdded: Bill) => new AddBillSuccess(billAdded)),
+        map((typeAdded: Type) => new AddTypeSuccess(typeAdded)),
         // If request fails, dispatch failed action
-        catchError(error => of(new AddBillFail(bill)))
+        catchError(error => of(new AddTypeFail(type)))
       )
     )
   );
 
   @Effect({ dispatch: false })
-  addBillSuccess$ = this.actions$.pipe(
-    ofType(CollectionActionTypes.AddBillSuccess),
-    tap(() => this.router.navigate(['../']))
+  addTypeSuccess$ = this.actions$.pipe(
+    ofType(CollectionActionTypes.AddTypeSuccess),
+    tap(() => this.router.navigate(['collection/types']))
   );
 
   @Effect({ dispatch: false })
-  addBillCancel$ = this.actions$.pipe(
-    ofType(CollectionActionTypes.AddBillCancel),
-    tap(() => this.router.navigate(['../']))
+  addTypeCancel$ = this.actions$.pipe(
+    ofType(CollectionActionTypes.AddTypeCancel),
+    tap(() => this.router.navigate(['collection/types']))
   );
+
 
   constructor(private http: HttpClient, private actions$: Actions, private router: Router) {}
 }

@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CollectionPageComponent } from './containers/collection-page';
+import {TypeAddPageComponent} from './containers/type-add-page';
 
 export const routes: Routes = [
   { path: '', component: CollectionPageComponent,
   children: [
-    { path: 'types', loadChildren: '../types/types.module#TypesModule'},
-    { path: 'localisations', loadChildren: '../localisations/localisations.module#LocalisationsModule'},
-    { path: 'bills', loadChildren: '../bills/bills.module#BillsModule'},
+    { path: 'add', component: TypeAddPageComponent }
   ]},
 ];
 
@@ -15,4 +14,4 @@ export const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CollectionRoutingModule {}
+export class TypesRoutingModule {}
