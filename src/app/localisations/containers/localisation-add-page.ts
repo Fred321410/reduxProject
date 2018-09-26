@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy, HostBinding } from '@angular/core';
-import { Router } from '../../../../node_modules/@angular/router';
-import { Store } from '../../../../node_modules/@ngrx/store';
 
 import * as fromLocalisations from '../reducers';
 import * as collection from '../actions/collections';
 import { slideInOutAnimation } from '../../shared/animations';
 import {Localisation} from '../models/localisation';
+import {Router} from '@angular/router';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'rp-localisation-add-page',

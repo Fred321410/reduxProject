@@ -60,6 +60,20 @@ export function reducer(
       });
     }
 
+    case CollectionActionTypes.AddLocalisationSuccess: {
+      /**
+       * The addMany function provided by the created adapter
+       * adds many records to the entity dictionary
+       * and returns a new state including those records. If
+       * the collection is to be sorted, the adapter will
+       * sort each record upon entry into the sorted array.
+       */
+      return adapter.addOne(action.payload, {
+        ...state,
+        selectedLocalisationId: state.selectedLocalisationId,
+      });
+    }
+
     case LocalisationActionTypes.Load: {
       /**
        * The addOne function provided by the created adapter

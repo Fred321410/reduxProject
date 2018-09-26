@@ -16,6 +16,11 @@ import {Localisation} from '../models/localisation';
             <input matInput type="text" placeholder="Dénomination du lieu" formControlName="name">
           </mat-form-field>
         </div>
+        <div class="example-container">
+          <mat-form-field>
+            <input matInput type="text" placeholder="Description du lieu" formControlName="description">
+          </mat-form-field>
+        </div>
         <button type="button" mat-raised-button (click)="cancel()"><mat-icon>arrow_back</mat-icon>Cancel</button>
         <button style="float: right" color="primary" type="submit" mat-raised-button>Valider</button>
       </form>
@@ -30,6 +35,7 @@ export class LocalisationAddComponent {
 
   form: FormGroup = new FormGroup({
     name: new FormControl(''),
+    description: new FormControl(''),
   });
 
   submit() {
