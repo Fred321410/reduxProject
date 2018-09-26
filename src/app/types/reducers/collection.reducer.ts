@@ -2,17 +2,20 @@ import {
   CollectionActionTypes,
   CollectionActions,
 } from '../actions/collections';
+import {Type} from '../models/type';
 
 export interface State {
   loaded: boolean;
   loading: boolean;
   ids: string[];
+  expendPanel: Type;
 }
 
 const initialState: State = {
   loaded: false,
   loading: false,
-  ids: []
+  ids: [],
+  expendPanel: null
 };
 
 export function reducer(
@@ -31,7 +34,7 @@ export function reducer(
         ...state,
         loaded: true,
         loading: false,
-        ids: action.payload.map(type => type.id),
+        ids: action.payload.map(type => type.id)
       };
     }
     case CollectionActionTypes.AddTypeSuccess: {
@@ -50,6 +53,12 @@ export function reducer(
       return {
         ...state,
         ids: state.ids.filter(id => id !== action.payload.id),
+      };
+    }
+    case CollectionActionTypes.ExpendTypePanel: {
+      return {
+        ...state,
+        expendPanel: action.payload
       };
     }
 

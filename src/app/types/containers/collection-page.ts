@@ -10,7 +10,7 @@ import { Type } from '../models/type';
   selector: 'rp-collection-type-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <rp-type-preview-list [types]="types$ | async"></rp-type-preview-list>
+    <rp-type-preview-list [types]="types$ | async" (expendPanel)="expendPanel($event)"></rp-type-preview-list>
   `,
 })
 export class CollectionPageComponent implements OnInit {
@@ -23,5 +23,9 @@ export class CollectionPageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new collection.Load());
+  }
+
+  expendPanel(type: Type) {
+    this.store.dispatch(new collection.ExpendTypePanel(type));
   }
 }

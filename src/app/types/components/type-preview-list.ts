@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { Type } from '../models/type';
 
 @Component({
@@ -7,7 +7,7 @@ import { Type } from '../models/type';
     <div class="container-type">
       <button style="margin-bottom: 15px" mat-raised-button routerLink="add"><mat-icon>add</mat-icon>Ajouter</button>
       <mat-accordion>
-        <rp-type-preview *ngFor="let type of types" [type]="type"></rp-type-preview>
+        <rp-type-preview *ngFor="let type of types" [type]="type" (expendPanel)="expendPanel.emit($event)"></rp-type-preview>
       </mat-accordion>
       <div>
         <router-outlet></router-outlet>
@@ -18,4 +18,5 @@ import { Type } from '../models/type';
 })
 export class TypePreviewListComponent {
   @Input() types: Type[];
+  @Output() expendPanel = new EventEmitter<Type>();
 }
