@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Type} from '../models/type';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material';
+declare var _: any;
 
 @Component({
   selector: 'rp-type-preview',
@@ -44,6 +45,7 @@ export class TypePreviewComponent {
   @Input() expendedPanel: Type;
   @Output() expendPanel = new EventEmitter<Type>();
   @Output() addSousType = new EventEmitter<{sousType: string, type: Type}>();
+  @Output() removeSousType = new EventEmitter<{sousType: string, type: Type}>();
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -54,8 +56,8 @@ export class TypePreviewComponent {
     const value = event.value;
 
     // Add our fruit
-    if ((value || '').trim()) {
-      this.addSousType.emit({sousType: value.trim(), type: this.type});
+    if ((value || '').trim() && !_.find(this.type.sousType, function(ssType) { return ssType === value.trim().toUpperCase(); })) {
+      this.addSousType.emit({sousType: value.trim().toUpperCase(), type: this.type});
     }
 
     // Reset the input value
@@ -68,7 +70,7 @@ export class TypePreviewComponent {
     const index = this.type.sousType.indexOf(ssType);
 
     if (index >= 0) {
-      this.type.sousType.splice(index, 1);
+      this.removeSousType.emit({sousType: ssType.trim(), type: this.type});
     }
   }
 

@@ -13,7 +13,10 @@ import {
 import {exhaustMap, map, catchError, tap} from 'rxjs/operators';
 import { Type } from '../models/type';
 import {Router} from '@angular/router';
-import {AddSousType, AddSousTypeFail, AddSousTypeSuccess, TypeActionTypes} from '../actions/types';
+import {
+  AddSousType, AddSousTypeFail, AddSousTypeSuccess, RemoveSousType, RemoveSousTypeFail, RemoveSousTypeSuccess,
+  TypeActionTypes
+} from '../actions/types';
 
 const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
@@ -57,6 +60,20 @@ export class CollectionEffects {
         map((typeAdded: Type) => new AddSousTypeSuccess({type: {id: typeAdded.id, changes: typeAdded}})),
         // If request fails, dispatch failed action
         catchError(error => of(new AddSousTypeFail(payload)))
+      )
+    )
+  );
+
+  @Effect()
+  removeSousType$: Observable<Action> = this.actions$.pipe(
+    ofType(TypeActionTypes.RemoveSousType),
+    map((action: RemoveSousType) => action.payload),
+    exhaustMap(payload =>
+      this.http.delete('http://localhost:9000/api/types/' + payload.type.id + '/sousType/' + payload.sousType).pipe(
+        // If successful, dispatch success action with result
+        map((typeAdded: Type) => new RemoveSousTypeSuccess({type: {id: typeAdded.id, changes: typeAdded}})),
+        // If request fails, dispatch failed action
+        catchError(error => of(new RemoveSousTypeFail(payload)))
       )
     )
   );

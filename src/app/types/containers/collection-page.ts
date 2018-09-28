@@ -14,7 +14,8 @@ import { Type } from '../models/type';
     <rp-type-preview-list [types]="types$ | async"
                           [expendedPanel] = "expendPanel$ | async"
                           (expendPanel)="expendPanel($event)"
-                          (addSousType)="addSousType($event)"></rp-type-preview-list>
+                          (addSousType)="addSousType($event)"
+                          (removeSousType)="removeSousType($event)"></rp-type-preview-list>
   `,
 })
 export class CollectionPageComponent implements OnInit {
@@ -37,5 +38,9 @@ export class CollectionPageComponent implements OnInit {
 
   addSousType(payload) {
     this.store.dispatch(new typeActions.AddSousType(payload));
+  }
+
+  removeSousType(payload) {
+    this.store.dispatch(new typeActions.RemoveSousType(payload));
   }
 }

@@ -30,5 +30,12 @@ router.post('/:id/sousType', function(req, res) {
   res.status(200).json(type);
 });
 
+router.delete('/:id/sousType/:sousType', function(req, res) {
+  let type = _.find(types, function(type) { return type.id === req.params.id});
+  let index = _.findIndex(type.sousType, function (ssType) {return ssType === req.params.sousType});
+  type.sousType.splice(index, 1);
+  res.status(200).json(type);
+});
+
 
 module.exports = router;

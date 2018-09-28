@@ -10,7 +10,8 @@ import { Type } from '../models/type';
         <rp-type-preview *ngFor="let type of types" [type]="type"
                          [expendedPanel]="expendedPanel"
                          (expendPanel)="expendPanel.emit($event)"
-                         (addSousType)="addSousType.emit($event)"></rp-type-preview>
+                         (addSousType)="addSousType.emit($event)"
+                         (removeSousType)="removeSousType.emit($event)"></rp-type-preview>
       </mat-accordion>
       <div>
         <router-outlet></router-outlet>
@@ -24,4 +25,5 @@ export class TypePreviewListComponent {
   @Input() expendedPanel: Type;
   @Output() expendPanel = new EventEmitter<Type>();
   @Output() addSousType = new EventEmitter<{sousType: string, type: Type}>();
+  @Output() removeSousType = new EventEmitter<{sousType: string, type: Type}>();
 }
