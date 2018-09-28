@@ -74,3 +74,5 @@ export const getLoading = (state: State) => state.loading;
 
 export const getIds = (state: State) => state.ids;
 
+export const getExpandedPanel = (state: State) => state.expendPanel;
+

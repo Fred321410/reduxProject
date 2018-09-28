@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { HttpClient  } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
@@ -13,6 +13,9 @@ import {
 import {exhaustMap, map, catchError, tap} from 'rxjs/operators';
 import { Type } from '../models/type';
 import {Router} from '@angular/router';
+import {AddSousType, AddSousTypeFail, AddSousTypeSuccess, TypeActionTypes} from '../actions/types';
+
+const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
 
 @Injectable()
 export class CollectionEffects {
@@ -40,6 +43,20 @@ export class CollectionEffects {
         map((typeAdded: Type) => new AddTypeSuccess(typeAdded)),
         // If request fails, dispatch failed action
         catchError(error => of(new AddTypeFail(type)))
+      )
+    )
+  );
+
+  @Effect()
+  addSousType$: Observable<Action> = this.actions$.pipe(
+    ofType(TypeActionTypes.AddSousType),
+    map((action: AddSousType) => action.payload),
+    exhaustMap(payload =>
+      this.http.post('http://localhost:9000/api/types/' + payload.type.id + '/sousType', payload).pipe(
+        // If successful, dispatch success action with result
+        map((typeAdded: Type) => new AddSousTypeSuccess({type: {id: typeAdded.id, changes: typeAdded}})),
+        // If request fails, dispatch failed action
+        catchError(error => of(new AddSousTypeFail(payload)))
       )
     )
   );

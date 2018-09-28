@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Type } from '../models/type';
+import {Update} from '@ngrx/entity';
 
 export enum TypeActionTypes {
   Search = '[Type] Search',
@@ -7,6 +8,9 @@ export enum TypeActionTypes {
   SearchError = '[Type] Search Error',
   Load = '[Type] Load',
   Select = '[Type] Select',
+  AddSousType = '[Type] Add SousType',
+  AddSousTypeSuccess = '[Type] Add SousType Success',
+  AddSousTypeFail = '[Type] Add SousType Fail',
 }
 
 /**
@@ -34,6 +38,30 @@ export class SearchError implements Action {
   constructor(public payload: string) {}
 }
 
+export class AddSousType implements Action {
+  readonly type = TypeActionTypes.AddSousType;
+
+  constructor(public payload: {
+    sousType: string,
+    type: Type
+  }) {}
+}
+
+export class AddSousTypeSuccess implements Action {
+  readonly type = TypeActionTypes.AddSousTypeSuccess;
+
+  constructor(public payload: {type: Update<Type>}) {}
+}
+
+export class AddSousTypeFail implements Action {
+  readonly type = TypeActionTypes.AddSousTypeFail;
+
+  constructor(public payload: {
+    type: Type,
+    sousType: string
+  }) {}
+}
+
 export class Load implements Action {
   readonly type = TypeActionTypes.Load;
 
@@ -50,4 +78,4 @@ export class Select implements Action {
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
  */
-export type TypeActions = Search | SearchComplete | SearchError | Load | Select;
+export type TypeActions = Search | SearchComplete | SearchError | Load | Select | AddSousType | AddSousTypeSuccess | AddSousTypeFail;

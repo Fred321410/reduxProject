@@ -67,6 +67,10 @@ export const getCollectionTypeIds = createSelector(
   getCollectionState,
   fromCollection.getIds
 );
+export const getCollectionExpendPanel= createSelector(
+  getCollectionState,
+  fromCollection.getExpandedPanel
+);
 export const getTypeCollection = createSelector(
   getTypeEntities,
   getCollectionTypeIds,

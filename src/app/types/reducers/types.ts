@@ -59,7 +59,9 @@ export function reducer(
         selectedTypeId: state.selectedTypeId,
       });
     }
-
+    case TypeActionTypes.AddSousTypeSuccess: {
+      return adapter.updateOne(action.payload.type, state);
+    }
     case TypeActionTypes.Load: {
       /**
        * The addOne function provided by the created adapter
