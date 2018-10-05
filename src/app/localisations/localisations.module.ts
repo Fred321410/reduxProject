@@ -12,6 +12,7 @@ import { CollectionEffects } from './effects/collection';
 import {ComponentsModule} from './components';
 import { LocalisationsRoutingModule } from './localisations-routing.module';
 import {LocalisationAddPageComponent} from './containers/localisation-add-page';
+import {TypesModule} from '../types/types.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {LocalisationAddPageComponent} from './containers/localisation-add-page';
     MaterialModule,
     LocalisationsRoutingModule,
     ComponentsModule,
+    TypesModule,
         /**
      * StoreModule.forFeature is used for composing state
      * from feature modules. These modules can be loaded

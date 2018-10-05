@@ -29,7 +29,7 @@ export interface Bill {
       localisation: {
         id: '1',
         city: 'Nantes',
-        type: [''],
+        types: null,
         description: '',
         tag: [''],
         name: ''

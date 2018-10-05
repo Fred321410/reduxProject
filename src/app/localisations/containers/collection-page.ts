@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import * as fromLocalisation from '../reducers';
 import * as collection from '../actions/collections';
+import * as collectionType from '../../types/actions/collections';
 import { Localisation } from '../models/localisation';
 
 @Component({
@@ -27,6 +28,7 @@ export class CollectionPageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new collection.Load());
+    this.store.dispatch(new collectionType.Load());
     this.store.dispatch(new collection.ReSize(window.innerWidth));
   }
 
