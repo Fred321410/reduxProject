@@ -6,7 +6,7 @@ import { Localisation } from '../models/localisation';
   template: `
     <div class="container-localisation">
       <button style="margin-bottom: 15px" mat-raised-button routerLink="add"><mat-icon>add</mat-icon>Ajouter</button>
-      <mat-grid-list cols="{{colsNumber}}" rowHeight="130" (window:resize)="colsNumberEvent.emit($event.target.innerWidth)">
+      <mat-grid-list cols="{{colsNumber}}" rowHeight="200" (window:resize)="colsNumberEvent.emit($event.target.innerWidth)">
         <mat-grid-tile *ngFor="let localisation of localisations">
           <rp-localisation-preview [localisation]="localisation"></rp-localisation-preview>
         </mat-grid-tile>

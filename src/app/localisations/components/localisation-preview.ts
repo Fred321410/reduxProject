@@ -11,6 +11,10 @@ import { Localisation } from '../models/localisation';
         </mat-card-title-group>
         <mat-card-content>
           <p *ngIf="description">{{ description | bcEllipsis }}</p>
+          <br/>
+          <mat-chip-list>
+            <mat-chip *ngFor="let type of types" selected color="primary">{{type.name}}</mat-chip>
+          </mat-chip-list>
         </mat-card-content>
       </mat-card>
     </a>
@@ -69,5 +73,9 @@ export class LocalisationPreviewComponent {
 
   get description() {
     return this.localisation.description;
+  }
+
+  get types() {
+    return this.localisation.types;
   }
 }

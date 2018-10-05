@@ -83,7 +83,7 @@ export class LocalisationAddComponent {
 
   submit() {
     if (this.form.valid) {
-      this.form.value.type = this.selectedTypes;
+      this.form.value.types = this.selectedTypes;
       this.submitted.emit(this.form.value);
     }
   }
