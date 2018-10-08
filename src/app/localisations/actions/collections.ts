@@ -1,10 +1,14 @@
 import { Action } from '@ngrx/store';
 import { Localisation } from '../models/localisation';
+import {Update} from '@ngrx/entity';
 
 export enum CollectionActionTypes {
   AddLocalisation = '[Collection] Add Localisation',
   AddLocalisationSuccess = '[Collection] Add Localisation Success',
   AddLocalisationFail = '[Collection] Add Localisation Fail',
+  UpdateLocalisation = '[Collection] Update Localisation',
+  UpdateLocalisationSuccess = '[Collection] Update Localisation Success',
+  UpdateLocalisationFail = '[Collection] Update Localisation Fail',
   AddLocalisationCancel = '[Collection] Add Localisation Cancel',
   RemoveLocalisation = '[Collection] Remove Localisation',
   RemoveLocalisationSuccess = '[Collection] Remove Localisation Success',
@@ -32,6 +36,24 @@ export class AddLocalisationSuccess implements Action {
 
 export class AddLocalisationFail implements Action {
   readonly type = CollectionActionTypes.AddLocalisationFail;
+
+  constructor(public payload: Localisation) {}
+}
+
+export class UpdateLocalisation implements Action {
+  readonly type = CollectionActionTypes.UpdateLocalisation;
+
+  constructor(public payload: Localisation) {}
+}
+
+export class UpdateLocalisationSuccess implements Action {
+  readonly type = CollectionActionTypes.UpdateLocalisationSuccess;
+
+  constructor(public payload: {localisation: Update<Localisation>}) {}
+}
+
+export class UpdateLocalisationFail implements Action {
+  readonly type = CollectionActionTypes.UpdateLocalisationFail;
 
   constructor(public payload: Localisation) {}
 }
@@ -92,6 +114,9 @@ export type CollectionActions =
   | AddLocalisation
   | AddLocalisationSuccess
   | AddLocalisationFail
+  | UpdateLocalisation
+  | UpdateLocalisationSuccess
+  | UpdateLocalisationFail
   | AddLocalisationCancel
   | RemoveLocalisation
   | RemoveLocalisationSuccess

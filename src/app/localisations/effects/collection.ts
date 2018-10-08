@@ -8,7 +8,8 @@ import { of } from 'rxjs';
 import {
   LoadFail,
   LoadSuccess,
-  CollectionActionTypes, AddLocalisation, AddLocalisationFail, AddLocalisationSuccess,
+  CollectionActionTypes, AddLocalisation, AddLocalisationFail, AddLocalisationSuccess, UpdateLocalisation, UpdateLocalisationSuccess,
+  UpdateLocalisationFail,
 } from '../actions/collections';
 import {exhaustMap, map, catchError, tap} from 'rxjs/operators';
 import { Localisation } from '../models/localisation';
@@ -47,6 +48,26 @@ export class CollectionEffects {
   @Effect({ dispatch: false })
   addLocalisationSuccess$ = this.actions$.pipe(
     ofType(CollectionActionTypes.AddLocalisationSuccess),
+    tap(() => this.router.navigate(['collection/localisations']))
+  );
+
+  @Effect()
+  updateLocalisationToCollection$: Observable<Action> = this.actions$.pipe(
+    ofType(CollectionActionTypes.UpdateLocalisation),
+    map((action: UpdateLocalisation) => action.payload),
+    exhaustMap(localisation =>
+      this.http.post('http://localhost:9000/api/localisations/' + localisation.id, localisation).pipe(
+        // If successful, dispatch success action with result
+        map((localisationUpdated: Localisation) => new UpdateLocalisationSuccess({localisation: {id: localisationUpdated.id, changes: localisationUpdated}})),
+        // If request fails, dispatch failed action
+        catchError(error => of(new UpdateLocalisationFail(localisation)))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  updateLocalisationSuccess$ = this.actions$.pipe(
+    ofType(CollectionActionTypes.UpdateLocalisationSuccess),
     tap(() => this.router.navigate(['collection/localisations']))
   );
 

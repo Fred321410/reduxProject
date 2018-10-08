@@ -74,6 +74,9 @@ export function reducer(
       });
     }
 
+    case CollectionActionTypes.UpdateLocalisationSuccess: {
+      return adapter.updateOne (action.payload.localisation, state);
+    }
     case LocalisationActionTypes.Load: {
       /**
        * The addOne function provided by the created adapter

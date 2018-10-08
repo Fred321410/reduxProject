@@ -14,7 +14,8 @@ import {Type} from '../../types/models/type';
       <form [formGroup]="form" (ngSubmit)="submit()">
         <div class="example-container">
           <mat-form-field>
-            <input matInput type="text" placeholder="Dénomination du lieu" formControlName="name">
+            <input matInput type="text" placeholder="Dénomination du lieu"
+                   formControlName="name" name="name">
           </mat-form-field>
         </div>
         <div class="example-container">
@@ -46,6 +47,8 @@ import {Type} from '../../types/models/type';
 export class LocalisationAddComponent {
   @Output() submitted = new EventEmitter<Localisation>();
   @Output() cancelEvent = new EventEmitter<any>();
+  @Input() localisations: Localisation[];
+  private _localisationId: string;
   private _types: Type[];
 
   get types(): Type[] {
@@ -58,10 +61,33 @@ export class LocalisationAddComponent {
     this.possibleTypes.push(...types);
   }
 
+  get localisationId(): string {
+    return this._localisationId;
+  }
+
+  @Input()
+  set localisationId(localisationId: string) {
+    this._localisationId = localisationId;
+    const localisationToUpdate = this.localisations.find(function(localisation) {
+      return localisation.id === localisationId;
+    });
+    if (localisationToUpdate) {
+      this.form.get('name').setValue(localisationToUpdate.name);
+      this.form.get('description').setValue(localisationToUpdate.description);
+      localisationToUpdate.types.forEach(function (type) {
+        this.selectedTypes.push(type);
+        const index = this.possibleTypes.map(function (t) { return t.id; }).indexOf(type.id);
+        if (index !== -1) {
+          this.possibleTypes.splice(index, 1);
+        }
+      }.bind(this));
+    }
+  }
+
   possibleTypes: Type[] = [];
   selectedTypes: Type[] = [];
 
-  constructor() { }
+  constructor() {}
 
   form: FormGroup = new FormGroup({
     name: new FormControl(''),

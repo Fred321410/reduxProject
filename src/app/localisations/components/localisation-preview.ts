@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Localisation } from '../models/localisation';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'rp-localisation-preview',
   template: `
-    <a>
+    <a (click)="update(id)">
       <mat-card>
         <mat-card-title-group>
           <mat-card-title>{{ name | bcEllipsis:35 }}</mat-card-title>
@@ -63,6 +64,8 @@ import { Localisation } from '../models/localisation';
 export class LocalisationPreviewComponent {
   @Input() localisation: Localisation;
 
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
   get id() {
     return this.localisation.id;
   }
@@ -77,5 +80,9 @@ export class LocalisationPreviewComponent {
 
   get types() {
     return this.localisation.types;
+  }
+
+  update(id: string) {
+    this.router.navigate(['add'], { relativeTo: this.route, queryParams: { id: id} });
   }
 }

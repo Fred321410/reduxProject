@@ -19,3 +19,14 @@ export function generateMockLocalisation(): Localisation {
       tag: ['']
   };
 }
+
+export function generateBlank(): Localisation {
+  return {
+    id: '',
+    city: '',
+    types: [],
+    name: '',
+    description: '',
+    tag: []
+  };
+}
