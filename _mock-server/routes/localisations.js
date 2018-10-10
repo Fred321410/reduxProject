@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
   var localisation = req.body;
-  localisation.id = localisations.length + 1;
+  localisation.id = (localisations.length + 1).toString();
   localisations.push(localisation);
   res.status(200).json(localisation);
 });
