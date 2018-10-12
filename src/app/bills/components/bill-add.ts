@@ -31,13 +31,33 @@ import {Localisation} from '../../localisations/models/localisation';
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="Localisation" formControlName="localisation">
+          <mat-select placeholder="Localisation" formControlName="localisation" (selectionChange)="selectLocalisation($event.value)">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let localisation of localisations" [value]="localisation">{{localisation.name}}</mat-option>
           </mat-select>
           <mat-error>
             La localisation est obligatoire
           </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <div class="emptyDiv" *ngIf="sousTypes.length === 0">
+          </div>
+          <mat-chip-list #chips [disabled]="sousTypes.length === 0" [multiple]="true" [selectable]="true" placeholder="Type">
+            <mat-chip *ngFor="let sousType of sousTypes" [selected]="sousType.selected" color="primary"
+                      (click)="sousType.selected = !sousType.selected">{{sousType.name}}</mat-chip>
+          </mat-chip-list>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Type de paiement" formControlName="prelevementType">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let prelevementType of prelevementTypes" [value]="prelevementType">{{prelevementType}}</mat-option>
+          </mat-select>
+          <mat-error>
+            Le type de paiement est obligatoire
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput  formControlName="description" placeholder="Description"></textarea>
         </mat-form-field>
       </div>
       <button type="button" mat-raised-button (click)="cancel()"><mat-icon>arrow_back</mat-icon>Cancel</button>
@@ -49,8 +69,11 @@ import {Localisation} from '../../localisations/models/localisation';
 export class BillAddComponent {
 
   @Input() localisations: Localisation[];
+  @Input() prelevementTypes: string[];
   @Output() submitted = new EventEmitter<Bill>();
   @Output() cancelEvent = new EventEmitter<any>();
+
+  sousTypes: {name: string, selected: boolean}[] = [];
 
   constructor() { }
 
@@ -58,15 +81,31 @@ export class BillAddComponent {
     date: new FormControl('', [Validators.required]),
     amount: new FormControl('', [Validators.required]),
     localisation: new FormControl('', [Validators.required]),
+    prelevementType: new FormControl('', [Validators.required]),
+    types: new FormControl(''),
+    description: new FormControl('')
   });
 
   submit() {
     if (this.form.valid) {
+      this.form.value.types = this.sousTypes.filter(function (sousType) { return sousType.selected; })
+        .map(function (sousType) { return sousType.name; });
       this.submitted.emit(this.form.value);
     }
   }
 
   cancel() {
     this.cancelEvent.emit();
+  }
+
+  selectLocalisation(localisationSelected: Localisation) {
+    this.sousTypes = [];
+    if (localisationSelected) {
+      localisationSelected.types.forEach(function(type) {
+        type.sousType.forEach(function(nameSousType) {
+          this.sousTypes.push({name: nameSousType, selected: false});
+        }.bind(this));
+      }.bind(this));
+    }
   }
 }

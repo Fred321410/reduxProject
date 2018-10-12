@@ -22,6 +22,14 @@ import {Localisation} from '../../localisations/models/localisation';
               <div class="example-element-description">
                 {{element.description}}
               </div>
+              <div class="button-row" style="margin-left: auto;">
+                <button mat-icon-button>
+                  <mat-icon color="accent">edit</mat-icon>
+                </button>
+                <button mat-icon-button>
+                  <mat-icon color="accent">delete</mat-icon>
+                </button>
+              </div>
             </div>
           </td>
         </ng-container>

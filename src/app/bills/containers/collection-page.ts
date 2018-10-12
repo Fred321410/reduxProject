@@ -6,6 +6,7 @@ import * as fromBills from '../reducers';
 import * as fromLocalisation from '../../localisations/reducers';
 import * as collection from '../actions/collections';
 import * as collectionLocalisation from '../../localisations/actions/collections';
+import * as collectionPrelevementTypes from '../../prelevementTypes/actions/collections';
 import { Bill } from '../models/bill';
 import {Localisation} from '../../localisations/models/localisation';
 
@@ -46,5 +47,6 @@ export class CollectionPageComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new collection.Load());
     this.store.dispatch(new collectionLocalisation.Load());
+    this.store.dispatch(new collectionPrelevementTypes.Load());
   }
 }
