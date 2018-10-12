@@ -9,8 +9,8 @@ router.use(function timeLog(req, res, next) {
 });
 
 let bills = [
-  {id: 1, description: 'Facture EDF', amount: 155, date: '13/07/2018'},
-  {id: 2, description: 'CB Carrefour', amount: -25, date: '14/07/2018'}
+  {id: '1', description: 'Facture EDF', amount: 155, date: '13/07/2018'},
+  {id: '2', description: 'CB Carrefour', amount: -25, date: '14/07/2018'}
 ];
 // define the home page route
 router.get('/', function(req, res) {

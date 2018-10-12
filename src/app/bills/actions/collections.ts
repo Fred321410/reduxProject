@@ -1,10 +1,14 @@
 import { Action } from '@ngrx/store';
 import { Bill } from '../models/bill';
+import {Update} from '@ngrx/entity';
 
 export enum CollectionActionTypes {
   AddBill = '[Collection] Add Bill',
   AddBillSuccess = '[Collection] Add Bill Success',
   AddBillFail = '[Collection] Add Bill Fail',
+  UpdateBill = '[Collection] Update Bill',
+  UpdateBillSuccess = '[Collection] Update Bill Success',
+  UpdateBillFail = '[Collection] Update Bill Fail',
   AddBillCancel = '[Collection] Add Bill Cancel',
   RemoveBill = '[Collection] Remove Bill',
   RemoveBillSuccess = '[Collection] Remove Bill Success',
@@ -32,6 +36,24 @@ export class AddBillSuccess implements Action {
 
 export class AddBillFail implements Action {
   readonly type = CollectionActionTypes.AddBillFail;
+
+  constructor(public payload: Bill) {}
+}
+
+export class UpdateBill implements Action {
+  readonly type = CollectionActionTypes.UpdateBill;
+
+  constructor(public payload: Bill) {}
+}
+
+export class UpdateBillSuccess implements Action {
+  readonly type = CollectionActionTypes.UpdateBillSuccess;
+
+  constructor(public payload: {bill: Update<Bill>}) {}
+}
+
+export class UpdateBillFail implements Action {
+  readonly type = CollectionActionTypes.UpdateBillFail;
 
   constructor(public payload: Bill) {}
 }
@@ -92,6 +114,9 @@ export type CollectionActions =
   | AddBill
   | AddBillSuccess
   | AddBillFail
+  | UpdateBill
+  | UpdateBillSuccess
+  | UpdateBillFail
   | AddBillCancel
   | RemoveBill
   | RemoveBillSuccess

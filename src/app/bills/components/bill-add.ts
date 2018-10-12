@@ -70,8 +70,30 @@ export class BillAddComponent {
 
   @Input() localisations: Localisation[];
   @Input() prelevementTypes: string[];
+  @Input() bills: Bill[];
+  private _billId: string;
   @Output() submitted = new EventEmitter<Bill>();
   @Output() cancelEvent = new EventEmitter<any>();
+
+  get billId(): string {
+    return this._billId;
+  }
+
+  @Input()
+  set billId(billId: string) {
+    this._billId = billId;
+    const billToUpdate = this.bills.find(function(bill) {
+      return bill.id === billId;
+    });
+    if (billToUpdate) {
+      console.log(billToUpdate.date);
+      console.log(new Date(billToUpdate.date, ));
+      //TODO Load Date dans datePicker
+      this.form.get('date').setValue(new Date(billToUpdate.date));
+      this.form.get('amount').setValue(billToUpdate.amount);
+      // TODO gestion loading des sousTypes
+    }
+  }
 
   sousTypes: {name: string, selected: boolean}[] = [];
 
@@ -87,6 +109,7 @@ export class BillAddComponent {
   });
 
   submit() {
+    console.log(this.form);
     if (this.form.valid) {
       this.form.value.types = this.sousTypes.filter(function (sousType) { return sousType.selected; })
         .map(function (sousType) { return sousType.name; });

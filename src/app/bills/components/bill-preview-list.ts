@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {Bill} from '../models/bill';
 import { detailExpandAnimation } from '../../shared/animations';
 import {Localisation} from '../../localisations/models/localisation';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'rp-bill-preview-list',
@@ -23,7 +24,7 @@ import {Localisation} from '../../localisations/models/localisation';
                 {{element.description}}
               </div>
               <div class="button-row" style="margin-left: auto;">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="update(element)">
                   <mat-icon color="accent">edit</mat-icon>
                 </button>
                 <button mat-icon-button>
@@ -58,6 +59,11 @@ export class BillPreviewListComponent {
   @Input() expandedElement: Bill;
   @Output() expendElement = new EventEmitter<Bill>();
 
-
   columnsToDisplay = ['date', 'amount'];
+
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
+  update(bill: Bill) {
+    this.router.navigate(['add'], { relativeTo: this.route, queryParams: { id: bill.id} });
+  }
 }

@@ -11,11 +11,13 @@ import {
   CollectionActionTypes,
   AddBill,
   AddBillSuccess,
-  AddBillFail,
+  AddBillFail, UpdateBill, UpdateBillSuccess, UpdateBillFail,
 } from '../actions/collections';
 import { Bill } from '../models/bill';
 import { exhaustMap, map, catchError, tap } from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {UpdateLocalisation, UpdateLocalisationFail, UpdateLocalisationSuccess} from '../../localisations/actions/collections';
+import {Localisation} from '../../localisations/models/localisation';
 
 
 @Injectable()
@@ -52,6 +54,26 @@ export class CollectionEffects {
   addBillSuccess$ = this.actions$.pipe(
     ofType(CollectionActionTypes.AddBillSuccess),
     tap(() => this.router.navigate(['../']))
+  );
+
+  @Effect()
+  updateBillToCollection$: Observable<Action> = this.actions$.pipe(
+    ofType(CollectionActionTypes.UpdateBill),
+    map((action: UpdateBill) => action.payload),
+    exhaustMap(bill =>
+      this.http.post('http://localhost:9000/api/bills/' + bill.id, bill).pipe(
+        // If successful, dispatch success action with result
+        map((billUpdated: Bill) => new UpdateBillSuccess({bill: {id: billUpdated.id, changes: billUpdated}})),
+        // If request fails, dispatch failed action
+        catchError(error => of(new UpdateBillFail(bill)))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  updateBillSuccess$ = this.actions$.pipe(
+    ofType(CollectionActionTypes.UpdateBillSuccess),
+    tap(() => this.router.navigate(['collection/bills']))
   );
 
   @Effect({ dispatch: false })
