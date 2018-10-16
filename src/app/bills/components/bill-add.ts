@@ -31,7 +31,8 @@ import {Localisation} from '../../localisations/models/localisation';
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select placeholder="Localisation" formControlName="localisation" (selectionChange)="selectLocalisation($event.value)">
+          <mat-select placeholder="Localisation" [compareWith]="compareByOptionId"
+                      formControlName="localisation" (selectionChange)="selectLocalisation($event.value)">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let localisation of localisations" [value]="localisation">{{localisation.name}}</mat-option>
           </mat-select>
@@ -86,12 +87,18 @@ export class BillAddComponent {
       return bill.id === billId;
     });
     if (billToUpdate) {
-      console.log(billToUpdate.date);
-      console.log(new Date(billToUpdate.date, ));
-      //TODO Load Date dans datePicker
       this.form.get('date').setValue(new Date(billToUpdate.date));
       this.form.get('amount').setValue(billToUpdate.amount);
-      // TODO gestion loading des sousTypes
+      this.form.get('prelevementType').setValue(billToUpdate.prelevementType);
+      this.form.get('description').setValue(billToUpdate.description);
+      this.form.get('localisation').setValue(billToUpdate.localisation);
+      this.selectLocalisation(billToUpdate.localisation);
+      this.sousTypes.forEach(function(sousType) {
+        if (billToUpdate.types.indexOf(sousType.name) >= 0) {
+          sousType.selected = true;
+        }
+      }.bind(this));
+      this.form.get('types').setValue(this.sousTypes);
     }
   }
 
@@ -107,6 +114,10 @@ export class BillAddComponent {
     types: new FormControl(''),
     description: new FormControl('')
   });
+
+  compareByOptionId(option1, option2) {
+    return option1.id && option2.id && option1.id === option2.id;
+  }
 
   submit() {
     console.log(this.form);

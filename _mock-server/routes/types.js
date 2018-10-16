@@ -9,7 +9,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 let types = [
-  {id: '1', name: 'NOURITURE', sousType: [], description: 'Example de type nouriture'},
+  {id: '1', name: 'NOURITURE', sousType: ['EXAMPLE'], description: 'Example de type nouriture'},
   {id: '2', name: 'IMMOBILIER', sousType: ['EAU'], description: 'Example de type immobilier'}
 ];
 // define the home page route
