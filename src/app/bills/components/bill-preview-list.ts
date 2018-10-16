@@ -21,13 +21,37 @@ import {ActivatedRoute, Router} from '@angular/router';
           <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="localisation">
+          <th mat-header-cell *matHeaderCellDef> Lieu </th>
+          <td mat-cell *matCellDef="let element"> {{element.localisation?.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="types">
+          <th mat-header-cell *matHeaderCellDef> Type de lieu </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip-list>
+              <mat-chip *ngFor="let type of element.localisation?.types" selected color="primary">{{type.name}}</mat-chip>
+            </mat-chip-list>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="prelevementType">
+          <th mat-header-cell *matHeaderCellDef> Type de prélèvement </th>
+          <td mat-cell *matCellDef="let element"> {{element.prelevementType}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="getDisplayedColumns().length">
             <div class="example-element-detail"
                  [@detailExpandAnimation]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div class="example-element-description">
                 {{element.description}}
               </div>
+              <mat-divider *ngIf="element.description && element.types && element.types.length > 0"
+                           [vertical]="true"></mat-divider>
+              <mat-chip-list [ngClass]="{'add-margin': element.description}">
+                <mat-chip *ngFor="let type of element?.types" selected color="primary">{{type}}</mat-chip>
+              </mat-chip-list>
               <div class="button-row" style="margin-left: auto;">
                 <button mat-icon-button (click)="update(element)">
                   <mat-icon color="accent">edit</mat-icon>
@@ -40,8 +64,8 @@ import {ActivatedRoute, Router} from '@angular/router';
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+        <tr mat-row *matRowDef="let element; columns: getDisplayedColumns();"
             class="example-element-row"
             [class.example-expanded-row]="expandedElement === element"
             (click)="expendElement.emit(element)">
@@ -64,11 +88,22 @@ export class BillPreviewListComponent {
   @Input() expandedElement: Bill;
   @Output() expendElement = new EventEmitter<Bill>();
 
-  columnsToDisplay = ['date', 'amount'];
+  columnsToDisplay = [{def: 'date', showMobile: true},
+    {def: 'amount', showMobile: true},
+    {def: 'localisation', showMobile: true},
+    {def: 'types', showMobile: false},
+    {def: 'prelevementType', showMobile: false}];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   update(bill: Bill) {
     this.router.navigate(['add'], { relativeTo: this.route, queryParams: { id: bill.id} });
+  }
+
+  getDisplayedColumns(): string[] {
+    const isMobile = false; // TODO Gestion de la taille de l'écran
+    return this.columnsToDisplay
+      .filter(cd => !isMobile || cd.showMobile)
+      .map(cd => cd.def);
   }
 }
