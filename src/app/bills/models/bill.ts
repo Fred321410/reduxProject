@@ -8,6 +8,7 @@ export interface Bill {
   localisation: Localisation;
   description: string;
   types: string[];
+  isDebit: boolean;
   prelevementType: string;
   couverture: {
     from: Date,
@@ -19,7 +20,8 @@ export interface Bill {
     return {
       id: '1',
       date: new Date('23/07/2018'),
-      amount: -50,
+      amount: 50,
+      isDebit: true,
       types: ['EAU'],
       prelevementType: 'FACTURE',
       couverture: {

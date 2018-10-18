@@ -10,7 +10,13 @@ router.use(function timeLog(req, res, next) {
 
 let localisations = [
   {id: '1', name: 'Carrefour city', description: 'Au coin de la rue', city: 'Nantes', tag: [], types: [
-    {id: '1', name: 'NOURITURE', sousType: ['EXAMPLE'], description: 'Example de type nouriture'}
+    {id: '1', name: 'NOURITURE', sousType: ['LIVRAISON', 'RESTAURANT', 'SUPERMARCHE'], description: 'Example de type nouriture'}
+    ]},
+  {id: '2', name: 'Uber Eats', description: 'Livraison domicile', city: 'Nantes', tag: [], types: [
+      {id: '1', name: 'NOURITURE', sousType: ['LIVRAISON', 'RESTAURANT', 'SUPERMARCHE'], description: 'Example de type nouriture'}
+    ]},
+  {id: '3', name: 'Domicile', description: 'Appartement Nantes', city: 'Nantes', tag: [], types: [
+      {id: '2', name: 'IMMOBILIER', sousType: ['EAU'], description: 'Example de type immobilier'}
     ]}
 ];
 // define the home page route

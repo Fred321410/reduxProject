@@ -18,7 +18,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef> Montant </th>
-          <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+          <td mat-cell *matCellDef="let element" [style.color]="element.isDebit ? 'red' : 'green'"> {{element.amount}} </td>
         </ng-container>
 
         <ng-container matColumnDef="localisation">

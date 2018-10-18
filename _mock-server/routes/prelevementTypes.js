@@ -8,7 +8,7 @@ router.use(function timeLog(req, res, next) {
 });
 
 let prelevementTypes = [
-  'FACTURE'
+  'CB', 'Paiement en ligne', 'Abonnement', 'Liquide', 'Virement', 'Ticket Resto'
 ];
 // define the home page route
 router.get('/', function(req, res) {
