@@ -3,6 +3,7 @@ var router = express.Router();
 var _ = require('lodash');
 var sqlite3 = require('sqlite3').verbose()
 const Promise = require('bluebird')
+const localisationsService = require('./localisations.service');
 
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
@@ -24,41 +25,24 @@ let localisations = [
 
 // define the home page route
 router.get('/', function(req, res) {
-  let db = new sqlite3.Database('./myBdd.db3')
-  db.all("SELECT localisation.*, t.name as typeName, t.description as typeDescription, t.id as typeId, group_concat(st.name) as sousTypes from localisation " +
-    "INNER JOIN localisations_types lt ON localisation.id = lt.id_localisation " +
-    "INNER JOIN type t ON lt.id_type = t.id " +
-    "INNER JOIN sous_type st ON t.id = st.id_type GROUP BY t.id", function(err, row){
+  localisationsService.getAll(function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err)
+      return err;
+    }
+    res.json(rows)
+  });
+});
 
-    let resultWithArraySousType = row.map(r => {
-      r.sousType = r.sousTypes.split(",");
-      r.id = r.id.toString();
-      delete r.sousTypes;
-      return r;
-    });
-    let result = [];
-    let resultGroupById = _.groupBy(resultWithArraySousType, function (loca) { return loca.id});
-    _.forEach(resultGroupById, function(value) {
-      let localisation = {};
-      localisation.id = value[0].id;
-      localisation.name = value[0].name;
-      localisation.city = value[0].city;
-      localisation.description = value[0].description;
-      localisation.types = [];
-      _.forEach(value, function(v) {
-        let type = {};
-        type.name = v.typeName;
-        type.description = v.typeDescription;
-        type.id = v.typeId;
-        type.sousType = [];
-        type.sousType.push(...v.sousType);
-        localisation.types.push(type);
-      });
-      result.push(localisation);
-    });
-
-
-    res.status(200).json(result);
+router.get('/:id', function(req, res) {
+  localisationsService.get(req.params.id, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err)
+      return err;
+    }
+    res.json(rows)
   });
 });
 

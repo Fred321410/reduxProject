@@ -3,6 +3,7 @@ var router = express.Router();
 var _ = require('lodash');
 var sqlite3 = require('sqlite3').verbose()
 const Promise = require('bluebird')
+var typesService = require('./types.service')
 
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
@@ -12,16 +13,25 @@ router.use(function timeLog(req, res, next) {
 
 // define the home page route
 router.get('/', function(req, res) {
-  var db = new sqlite3.Database('./myBdd.db3')
-  db.all("select type.*, group_concat(st.name) as sousTypes from type\n" +
-    "inner join sous_type st ON type.id = st.id_type\n" +
-    "GROUP BY type.id", function(err, row){
-    res.status(200).json(row.map(r => {
-      r.sousType = r.sousTypes.split(",");
-      r.id = r.id.toString();
-      delete r.sousTypes;
-      return r;
-    }));
+  typesService.getAll(function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err)
+      return err;
+    }
+    res.json(rows)
+  });
+});
+
+// define the home page route
+router.get('/:id', function(req, res) {
+  typesService.get(req.params.id, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err)
+      return err;
+    }
+    res.json(rows)
   });
 });
 
