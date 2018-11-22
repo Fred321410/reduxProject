@@ -1,9 +1,7 @@
 const service = module.exports = {}
 
-var _ = require('lodash');
 const step = require('step')
 var sqlite3 = require('sqlite3').verbose()
-const Promise = require('bluebird')
 const typesService = require('./types.service');
 
 // define the home page route
@@ -89,3 +87,56 @@ service.get = function(id, cb) {
   });
 };
 
+service.save = function(localisation, cb) {
+  let finalResult = {}
+  step(function () {
+    service.saveLocalisation(localisation, this)
+  }, function (err, results) {
+    if (err) {
+      console.error(err)
+      cb(err, null)
+      return
+    }
+    finalResult = results;
+    let group = this.group();
+    localisation.types.forEach(function (type) {
+      service.saveType(finalResult.id, type.id, group());
+    });
+  }, function (err, results) {
+    if (err) {
+      console.error(err)
+      cb(err, null)
+      return
+    }
+    finalResult.id = finalResult.id.toString();
+    cb(null, finalResult)
+  });
+};
+
+service.saveLocalisation = function(localisation, cb) {
+  step(function () {
+    let db = new sqlite3.Database('./myBdd.db3');
+    db.run(`INSERT INTO localisation (name, description, city)
+          VALUES(?, ?, ?)`, [localisation.name, localisation.description, localisation.city], function (err) {
+      if (err) {
+        cb(err.message, null)
+      }
+      localisation.id = this.lastID;
+      cb(null, localisation)
+    })
+  });
+};
+
+
+service.saveType = function(id_localisation, id_type, cb) {
+  step(function () {
+    let db = new sqlite3.Database('./myBdd.db3');
+    db.run(`INSERT INTO localisations_types (id_type, id_localisation)
+          VALUES(?, ?)`, [id_type, id_localisation], function (err) {
+      if (err) {
+        cb(err.message, null)
+      }
+      cb(null, null)
+    })
+  });
+};

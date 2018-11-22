@@ -1,8 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var _ = require('lodash');
-var sqlite3 = require('sqlite3').verbose()
-const Promise = require('bluebird')
 var typesService = require('./types.service')
 
 // middleware that is specific to this router

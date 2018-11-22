@@ -1,9 +1,6 @@
 const service = module.exports = {}
-
-var _ = require('lodash');
 const step = require('step')
 var sqlite3 = require('sqlite3').verbose()
-const Promise = require('bluebird')
 
 // define the home page route
 service.getAll = function(cb) {
@@ -67,7 +64,6 @@ service.addSousType = function(idType, sousType, cb) {
   step(function () {
     service.get(idType, this);
   }, function (err, results) {
-    console.log(results)
     if (err) {
       cb(err, null)
     } else if (!results || results.length === 0) {

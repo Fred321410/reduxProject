@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
-var sqlite3 = require('sqlite3').verbose()
-const Promise = require('bluebird')
 const localisationsService = require('./localisations.service');
 
 // middleware that is specific to this router
@@ -47,16 +45,18 @@ router.get('/:id', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  var localisation = req.body;
-  localisation.id = (localisations.length + 1).toString();
-  localisations.push(localisation);
-  res.status(200).json(localisation);
+  localisationsService.save(req.body, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err)
+      return err;
+    }
+    res.json(rows)
+  });
 });
 
 router.post('/:id', function(req, res) {
-  let localisation = _.find(localisations, function(localisation) { return localisation.id === req.params.id});
-  localisation = req.body;
-  res.status(200).json(localisation);
+  res.status(500).send('TODO')
 });
 
 
