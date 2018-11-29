@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {Type} from '../models/type';
 
 @Component({
@@ -13,7 +13,15 @@ import {Type} from '../models/type';
       <form [formGroup]="form" (ngSubmit)="submit()">
         <div class="example-container">
           <mat-form-field>
-            <input matInput type="text" placeholder="Dénomination du lieu" formControlName="name">
+            <input matInput type="text" placeholder="Dénomination du type" formControlName="name">
+            <mat-error>
+              La dénomination est obligatoire
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="example-container">
+          <mat-form-field>
+            <input matInput type="text" placeholder="Description du type" formControlName="description">
           </mat-form-field>
         </div>
         <button type="button" mat-raised-button (click)="cancel()"><mat-icon>arrow_back</mat-icon>Cancel</button>
@@ -29,7 +37,8 @@ export class TypeAddComponent {
   constructor() { }
 
   form: FormGroup = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
+    description: new FormControl('')
   });
 
   submit() {

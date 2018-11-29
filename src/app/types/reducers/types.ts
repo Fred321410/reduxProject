@@ -65,6 +65,12 @@ export function reducer(
     case TypeActionTypes.RemoveSousTypeSuccess: {
       return adapter.updateOne(action.payload.type, state);
     }
+    case CollectionActionTypes.AddTypeSuccess: {
+      return adapter.addOne(action.payload, {
+        ...state,
+        selectedTypeId: state.selectedTypeId,
+      });
+    }
     case TypeActionTypes.Load: {
       /**
        * The addOne function provided by the created adapter

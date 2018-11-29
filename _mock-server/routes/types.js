@@ -55,6 +55,7 @@ router.post('/:id/sousType', function(req, res) {
 });
 
 router.delete('/:id/sousType/:sousType', function(req, res) {
+  // TODO Gérer si localisation/bill utilisent ce sousType
   typesService.deleteSousType(req.params.id, req.params.sousType, function (err, rows) {
     if (err) {
       console.log(err);
