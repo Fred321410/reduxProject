@@ -41,4 +41,15 @@ router.post('/', function(req, res) {
   });
 });
 
+router.delete('/:id', function(req, res) {
+  billsService.delete(req.params.id, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err)
+      return err;
+    }
+    res.json(req.params.id)
+  });
+});
+
 module.exports = router;

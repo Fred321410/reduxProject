@@ -18,7 +18,8 @@ import {Localisation} from '../../localisations/models/localisation';
     [bills]="bills$ | async"
     [localisations]="localisation$ | async"
     [expandedElement]="expendElement$ | async"
-    (expendElement)="expendElement($event)"></rp-bill-preview-list>
+    (expendElement)="expendElement($event)"
+    (removeBill)="removeBill($event)"></rp-bill-preview-list>
   `,
   styles: [
     `
@@ -42,6 +43,10 @@ export class CollectionPageComponent implements OnInit {
 
   expendElement(bill: Bill) {
     this.store.dispatch(new collection.ExpendBillRow(bill));
+  }
+
+  removeBill(bill: Bill) {
+    this.store.dispatch(new collection.RemoveBill(bill));
   }
 
   ngOnInit() {

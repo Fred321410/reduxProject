@@ -76,7 +76,7 @@ export class RemoveBill implements Action {
 export class RemoveBillSuccess implements Action {
   readonly type = CollectionActionTypes.RemoveBillSuccess;
 
-  constructor(public payload: Bill) {}
+  constructor(public payload: { id: string }) {}
 }
 
 export class RemoveBillFail implements Action {

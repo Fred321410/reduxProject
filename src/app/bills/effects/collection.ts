@@ -11,7 +11,7 @@ import {
   CollectionActionTypes,
   AddBill,
   AddBillSuccess,
-  AddBillFail, UpdateBill, UpdateBillSuccess, UpdateBillFail,
+  AddBillFail, UpdateBill, UpdateBillSuccess, UpdateBillFail, RemoveBill, RemoveBillFail, RemoveBillSuccess,
 } from '../actions/collections';
 import { Bill } from '../models/bill';
 import { exhaustMap, map, catchError, tap } from 'rxjs/operators';
@@ -66,6 +66,20 @@ export class CollectionEffects {
         map((billUpdated: Bill) => new UpdateBillSuccess({bill: {id: billUpdated.id, changes: billUpdated}})),
         // If request fails, dispatch failed action
         catchError(error => of(new UpdateBillFail(bill)))
+      )
+    )
+  );
+
+  @Effect()
+  remvoveBill: Observable<Action> = this.actions$.pipe(
+    ofType(CollectionActionTypes.RemoveBill),
+    map((action: RemoveBill) => action.payload),
+    exhaustMap(bill =>
+      this.http.delete('http://localhost:9000/api/bills/' + bill.id).pipe(
+        // If successful, dispatch success action with result
+        map((idBill: string) => new RemoveBillSuccess({id: idBill})),
+        // If request fails, dispatch failed action
+        catchError(error => of(new RemoveBillFail(bill)))
       )
     )
   );

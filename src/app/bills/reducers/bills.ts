@@ -72,6 +72,19 @@ export function reducer(
         selectedBillId: state.selectedBillId,
       });
     }
+    case CollectionActionTypes.RemoveBillSuccess: {
+      /**
+       * The addMany function provided by the created adapter
+       * adds many records to the entity dictionary
+       * and returns a new state including those records. If
+       * the collection is to be sorted, the adapter will
+       * sort each record upon entry into the sorted array.
+       */
+      return adapter.removeOne(action.payload.id, {
+        ...state,
+        selectedBillId: state.selectedBillId,
+      });
+    }
 
     case BillActionTypes.Load: {
       /**

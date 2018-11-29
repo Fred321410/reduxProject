@@ -10,13 +10,16 @@ service.getAll = function(cb) {
   let bills = [];
   step(function () {
     var db = new sqlite3.Database('./myBdd.db3')
-    db.all("SELECT bill.*, group_concat(st.name) as types from bill " +
+    db.all("SELECT bill.*, group_concat(DISTINCT(st.name)) as types from bill " +
       "INNER JOIN bill_sousTypes bst ON bst.id_bill = bill.id " +
-      "INNER JOIN sous_type st ON st.id = bst.id_sous_type", this);
+      "INNER JOIN sous_type st ON st.id = bst.id_sous_type GROUP BY bill.id", this);
   }, function (err, results) {
     if (err) {
       console.error(err)
       cb(err, null)
+      return
+    } else if (results.filter(function(bill) {return bill.id !== null}).length === 0) {
+      cb(null, [])
       return
     }
     bills = results.map(r => {
@@ -47,11 +50,14 @@ service.get = function(id, cb) {
     var db = new sqlite3.Database('./myBdd.db3')
     db.all("SELECT bill.*, group_concat(st.name) as types from bill " +
       "INNER JOIN bill_sousTypes bst ON bst.id_bill = bill.id " +
-      "INNER JOIN sous_type st ON st.id = bst.id_sous_type WHERE bill.id = " + id, this);
+      "INNER JOIN sous_type st ON st.id = bst.id_sous_type WHERE bill.id = " + id + " GROUP BY bill.id", this);
   }, function (err, results) {
     if (err) {
       console.error(err)
       cb(err, null)
+      return
+    } else if (results.filter(function(bill) {return bill.id !== null}).length === 0) {
+      cb(null, [])
       return
     }
     bill = results.map(r => {
@@ -118,13 +124,53 @@ service.saveBill = function(bill, cb) {
 service.saveSousType = function(idBill, idType, sous_type, cb) {
   step(function () {
     let db = new sqlite3.Database('./myBdd.db3');
-    db.run(`INSERT INTO bill_sousTypes (id_bill, id_sous_type) `
+    db.run(`INSERT INTO bill_sousTypes (id_bill, id_sous_type, id_type) `
       + `VALUES (`+ idBill +`, (select sous_type.id from sous_type INNER JOIN type t ON sous_type.id_type = t.id `
-      + `where t.id = ` + idType + ` and sous_type.name = \'` + sous_type + `\' limit 1))`, function (err) {
+      + `where t.id = ` + idType + ` and sous_type.name = \'` + sous_type + `\' limit 1), ` + idType +`)`, function (err) {
       if (err) {
         cb(err.message, null)
       }
       cb(null, null)
     })
+  });
+};
+
+service.delete = function(id, cb) {
+  step(function () {
+    service.get(id, this);
+  }, function (err, results) {
+    if (err) {
+      cb(err, null)
+    } else if (!results || results.length === 0) {
+      cb('Cette facture n\'existe pas', null)
+      return
+    }
+    service.deleteSousType(id, this);
+  }, function (err, results) {
+    if (err) {
+      cb(err, null)
+      return
+    }
+    var db = new sqlite3.Database('./myBdd.db3');
+    db.run("DELETE FROM bill WHERE id = ?", [id], function(err, row){
+      if (err) {
+        cb(err.message, null)
+      }
+      cb(null, row)
+    })
+    db.close();
+  });
+};
+
+service.deleteSousType = function(id, cb) {
+  step(function () {
+    var db = new sqlite3.Database('./myBdd.db3');
+    db.run("DELETE FROM bill_sousTypes WHERE id_bill = ?", [id], function(err, row){
+      if (err) {
+        cb(err.message, null)
+      }
+      cb(null, row)
+    })
+    db.close();
   });
 };

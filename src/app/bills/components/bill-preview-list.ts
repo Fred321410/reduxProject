@@ -18,7 +18,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef> Montant </th>
-          <td mat-cell *matCellDef="let element" [style.color]="element.isDebit ? 'red' : 'green'"> {{element.amount}} </td>
+          <td mat-cell *matCellDef="let element" [style.color]="element.isDebit === 'false' ? 'green' : 'red'"> {{element.amount}} </td>
         </ng-container>
 
         <ng-container matColumnDef="localisation">
@@ -57,7 +57,7 @@ import {ActivatedRoute, Router} from '@angular/router';
                   <mat-icon color="accent">edit</mat-icon>
                 </button>
                 <button mat-icon-button>
-                  <mat-icon color="accent">delete</mat-icon>
+                  <mat-icon color="accent" (click)="deleteBill(element)">delete</mat-icon>
                 </button>
               </div>
             </div>
@@ -87,6 +87,7 @@ export class BillPreviewListComponent {
   @Input() localisations: Localisation[];
   @Input() expandedElement: Bill;
   @Output() expendElement = new EventEmitter<Bill>();
+  @Output() removeBill = new EventEmitter<Bill>();
 
   columnsToDisplay = [{def: 'date', showMobile: true},
     {def: 'amount', showMobile: true},
@@ -98,6 +99,10 @@ export class BillPreviewListComponent {
 
   update(bill: Bill) {
     this.router.navigate(['add'], { relativeTo: this.route, queryParams: { id: bill.id} });
+  }
+
+  deleteBill(bill: Bill) {
+    this.removeBill.emit(bill);
   }
 
   getDisplayedColumns(): string[] {
