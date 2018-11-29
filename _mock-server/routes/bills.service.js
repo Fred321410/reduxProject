@@ -135,6 +135,54 @@ service.saveSousType = function(idBill, idType, sous_type, cb) {
   });
 };
 
+service.update = function(bill, cb) {
+  let finalResult = {}
+  step(function () {
+    service.updateBill(bill, this)
+  }, function (err, results) {
+    if (err) {
+      console.error(err)
+      cb(err, null)
+      return
+    }
+    service.deleteSousType(parseInt(bill.id), this);
+  }, function (err, results) {
+    if (err) {
+      console.error(err)
+      cb(err, null)
+      return
+    }
+    let group = this.group();
+    bill.localisation.types.forEach(function (type) {
+      type.sousType.forEach(function (st){
+        if (bill.types.includes(st)) {
+          service.saveSousType(parseInt(bill.id), parseInt(type.id), st, group());
+        }
+      });
+    });
+  }, function (err, results) {
+    if (err) {
+      console.error(err)
+      cb(err, null)
+      return
+    }
+    cb(null, bill)
+  });
+};
+
+service.updateBill = function(bill, cb) {
+  step(function () {
+    let db = new sqlite3.Database('./myBdd.db3');
+    db.run(`UPDATE bill SET date = ?, amount = ?, localisation = ?, description = ?, isDebit = ?, prelevementType = ?, couvertureFrom = ?, couvertureTo = ? WHERE id = ?`,
+      [bill.date, bill.amount, parseInt(bill.localisation.id), bill.description, bill.isDebit, bill.prelevementType, bill.couvertureFrom, bill.couvertureTo, parseInt(bill.id)], function (err) {
+      if (err) {
+        cb(err.message, null)
+      }
+      cb(null, bill)
+    })
+  });
+};
+
 service.delete = function(id, cb) {
   step(function () {
     service.get(id, this);

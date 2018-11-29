@@ -85,6 +85,9 @@ export function reducer(
         selectedBillId: state.selectedBillId,
       });
     }
+    case CollectionActionTypes.UpdateBillSuccess: {
+      return adapter.updateOne(action.payload.bill, state);
+    }
 
     case BillActionTypes.Load: {
       /**

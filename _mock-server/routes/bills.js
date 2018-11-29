@@ -41,6 +41,17 @@ router.post('/', function(req, res) {
   });
 });
 
+router.post('/:id', function(req, res) {
+  billsService.update(req.body, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err)
+      return err;
+    }
+    res.json(rows)
+  });
+});
+
 router.delete('/:id', function(req, res) {
   billsService.delete(req.params.id, function (err, rows) {
     if (err) {
