@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {Localisation} from '../models/localisation';
 import {Type} from '../../types/models/type';
 
@@ -16,6 +16,15 @@ import {Type} from '../../types/models/type';
           <mat-form-field>
             <input matInput type="text" placeholder="Dénomination du lieu"
                    formControlName="name" name="name">
+            <mat-error>
+              La dénomination est obligatoire
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="example-container">
+          <mat-form-field>
+            <input matInput type="text" placeholder="Ville"
+                   formControlName="city" name="city">
           </mat-form-field>
         </div>
         <div class="example-container">
@@ -90,8 +99,9 @@ export class LocalisationAddComponent {
   constructor() {}
 
   form: FormGroup = new FormGroup({
-    name: new FormControl(''),
+    name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
+    city: new FormControl(''),
     types: new FormControl('')
   });
 
@@ -108,7 +118,7 @@ export class LocalisationAddComponent {
   }
 
   submit() {
-    if (this.form.valid) {
+    if (this.form.valid && this.selectedTypes.length > 0) {
       this.form.value.types = this.selectedTypes;
       this.submitted.emit(this.form.value);
     }

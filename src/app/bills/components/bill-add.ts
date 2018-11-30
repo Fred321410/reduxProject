@@ -47,7 +47,7 @@ import {Localisation} from '../../localisations/models/localisation';
           <mat-select placeholder="Localisation" [compareWith]="compareByOptionId"
                       formControlName="localisation" (selectionChange)="selectLocalisation($event.value)">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let localisation of localisations" [value]="localisation">{{localisation.name}}</mat-option>
+            <mat-option *ngFor="let localisation of localisations" [value]="localisation">{{localisation.name}}{{localisation.city && localisation.city !== '' ? ' - ' + localisation.city : ''}}</mat-option>
           </mat-select>
           <mat-error>
             La localisation est obligatoire

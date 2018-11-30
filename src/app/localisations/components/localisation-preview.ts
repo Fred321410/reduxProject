@@ -11,7 +11,8 @@ import {ActivatedRoute, Router} from '@angular/router';
           <mat-card-title>{{ name | bcEllipsis:35 }}</mat-card-title>
         </mat-card-title-group>
         <mat-card-content>
-          <p *ngIf="description">{{ description | bcEllipsis }}</p>
+          <p *ngIf="description">{{ city ? city + ' - ' + description : description | bcEllipsis}}</p>
+          <p *ngIf="city && !description">{{ city | bcEllipsis}}</p>
           <br/>
           <mat-chip-list>
             <mat-chip *ngFor="let type of types" selected color="primary">{{type.name}}</mat-chip>
@@ -80,6 +81,10 @@ export class LocalisationPreviewComponent {
 
   get types() {
     return this.localisation.types;
+  }
+
+  get city() {
+    return this.localisation.city;
   }
 
   update(id: string) {
