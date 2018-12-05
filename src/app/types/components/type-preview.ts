@@ -16,6 +16,7 @@ declare var _: any;
           {{description}}
         </mat-panel-description>
       </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
       <mat-form-field class="chip-list">
         <mat-chip-list #chipList>
           <mat-chip *ngFor="let ssType of type.sousType" [selectable]="selectable"
@@ -30,6 +31,7 @@ declare var _: any;
                  (matChipInputTokenEnd)="add($event)">
         </mat-chip-list>
       </mat-form-field>
+      </ng-template>
     </mat-expansion-panel>
   `,
   styles: [
