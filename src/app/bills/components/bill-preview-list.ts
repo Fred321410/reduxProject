@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ViewChild, OnInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Bill} from '../models/bill';
 import { detailExpandAnimation } from '../../shared/animations';
 import {Localisation} from '../../localisations/models/localisation';
@@ -18,16 +18,20 @@ import {CheckDeviceService} from '../../core/services/ckech.device.service';
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
           <td mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
+          <td mat-footer-cell *matFooterCellDef> Total </td>
         </ng-container>
 
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant </th>
           <td mat-cell *matCellDef="let element" [style.color]="element.isDebit ? 'red' : 'green'"> {{element.amount}} </td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency: 'EUR'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="localisation">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Lieu </th>
           <td mat-cell *matCellDef="let element"> {{element.localisation?.name}} </td>
+          <td mat-footer-cell *matFooterCellDef>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="types">
@@ -37,11 +41,13 @@ import {CheckDeviceService} from '../../core/services/ckech.device.service';
               <mat-chip *ngFor="let type of element.localisation?.types" selected color="primary">{{type.name}}</mat-chip>
             </mat-chip-list>
           </td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="prelevementType">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Type de prélèvement </th>
           <td mat-cell *matCellDef="let element"> {{element.prelevementType}} </td>
+          <td mat-footer-cell *matFooterCellDef></td>
         </ng-container>
 
         <ng-container matColumnDef="expandedDetail">
@@ -68,7 +74,7 @@ import {CheckDeviceService} from '../../core/services/ckech.device.service';
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
         <tr mat-row *matRowDef="let element; columns: getDisplayedColumns();"
             class="example-element-row"
             [class.example-expanded-row]="expandedElement === element"
@@ -78,6 +84,7 @@ import {CheckDeviceService} from '../../core/services/ckech.device.service';
 
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        <tr mat-footer-row *matFooterRowDef="getDisplayedColumns(); sticky: true"></tr>
       </table>
     </div>
     <div>
@@ -173,5 +180,15 @@ export class BillPreviewListComponent {
       }
       this.dataSource = new MatTableDataSource<Bill>(billsSorted);
     }
+  }
+
+  getTotalCost() {
+    return this.bills.map(b => b.isDebit ? -b.amount : b.amount).reduce((acc, value) => acc + value, 0);
+  }
+  getTotalDebit() {
+    return this.bills.filter(b => b.isDebit).map(b => b.amount).reduce((acc, value) => acc + value, 0);
+  }
+  getTotalCredit() {
+    return this.bills.filter(b => !b.isDebit).map(b => b.amount).reduce((acc, value) => acc + value, 0);
   }
 }
