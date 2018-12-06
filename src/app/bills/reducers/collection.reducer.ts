@@ -3,19 +3,22 @@ import {
   CollectionActions,
 } from '../actions/collections';
 import { Bill } from '../models/bill';
+import {SortBill} from '../models/sortBill';
 
 export interface State {
   loaded: boolean;
   loading: boolean;
   ids: string[];
   expandedElement: Bill;
+  sortBill: SortBill;
 }
 
 const initialState: State = {
   loaded: false,
   loading: false,
   ids: [],
-  expandedElement: null
+  expandedElement: null,
+  sortBill: {direction: 'asc', active: 'date'}
 };
 
 export function reducer(
@@ -32,6 +35,7 @@ export function reducer(
 
     case CollectionActionTypes.LoadSuccess: {
       return {
+        ...state,
         loaded: true,
         loading: false,
         ids: action.payload.map(bill => bill.id),
@@ -73,6 +77,12 @@ export function reducer(
         expandedElement: action.payload,
       };
     }
+    case CollectionActionTypes.SortingBills: {
+      return {
+        ...state,
+        sortBill: action.payload,
+      };
+    }
 
     default: {
       return state;
@@ -87,3 +97,5 @@ export const getLoading = (state: State) => state.loading;
 export const getIds = (state: State) => state.ids;
 
 export const getExpandedElement = (state: State) => state.expandedElement;
+
+export const getSortBill = (state: State) => state.sortBill;

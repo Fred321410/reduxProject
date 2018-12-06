@@ -4,6 +4,7 @@ import { detailExpandAnimation } from '../../shared/animations';
 import {Localisation} from '../../localisations/models/localisation';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatTableDataSource} from '@angular/material';
+import {SortBill} from '../models/sortBill';
 
 @Component({
   selector: 'rp-bill-preview-list',
@@ -11,7 +12,8 @@ import {MatTableDataSource} from '@angular/material';
   template: `
     <div class="container-bill">
       <button style="margin-bottom: 15px" mat-raised-button routerLink="add"><mat-icon>add</mat-icon>Ajouter</button>
-      <table mat-table [dataSource]='dataSource' matSort (matSortChange)="sortData($event)" multiTemplateDataRows class='mat-elevation-z8'>
+      <table mat-table [dataSource]='dataSource' matSort (matSortChange)="sortingBills.emit($event)"
+             multiTemplateDataRows class='mat-elevation-z8'>
         <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
           <td mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
@@ -85,6 +87,7 @@ import {MatTableDataSource} from '@angular/material';
 })
 export class BillPreviewListComponent {
   private _bills: Bill[];
+  private _sortBill: SortBill;
   get bills(): Bill[] {
     return this._bills;
   }
@@ -92,11 +95,22 @@ export class BillPreviewListComponent {
   @Input()
   set bills(bills: Bill[]) {
     this._bills = bills;
-    this.dataSource = new MatTableDataSource<Bill>(bills);
+    //this.dataSource = new MatTableDataSource<Bill>(bills);
+    this.sortData(this.sortBill);
+  }
+  get sortBill(): SortBill {
+    return this._sortBill;
+  }
+
+  @Input()
+  set sortBill(sortBill: SortBill) {
+    this._sortBill = sortBill;
+    this.sortData(sortBill);
   }
   @Input() localisations: Localisation[];
   @Input() expandedElement: Bill;
   @Output() expendElement = new EventEmitter<Bill>();
+  @Output() sortingBills = new EventEmitter<SortBill>();
   @Output() removeBill = new EventEmitter<Bill>();
   dataSource: MatTableDataSource<Bill>;
 
@@ -123,7 +137,7 @@ export class BillPreviewListComponent {
       .map(cd => cd.def);
   }
 
-  sortData(event: any): void {
+  sortData(event: SortBill): void {
     if (event && event.direction !== '') {
       const direction = (event.direction === 'asc') ? -1 : 1;
       let billsSorted = this.bills;

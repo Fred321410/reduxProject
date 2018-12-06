@@ -9,6 +9,7 @@ import * as collectionLocalisation from '../../localisations/actions/collections
 import * as collectionPrelevementTypes from '../../prelevementTypes/actions/collections';
 import { Bill } from '../models/bill';
 import {Localisation} from '../../localisations/models/localisation';
+import {SortBill} from '../models/sortBill';
 
 @Component({
   selector: 'rp-collection-bills-page',
@@ -18,8 +19,10 @@ import {Localisation} from '../../localisations/models/localisation';
     [bills]="bills$ | async"
     [localisations]="localisation$ | async"
     [expandedElement]="expendElement$ | async"
+    [sortBill]="sortBill$ | async"
     (expendElement)="expendElement($event)"
-    (removeBill)="removeBill($event)"></rp-bill-preview-list>
+    (removeBill)="removeBill($event)"
+    (sortingBills)="sortingBills($event)"></rp-bill-preview-list>
   `,
   styles: [
     `
@@ -34,11 +37,13 @@ export class CollectionPageComponent implements OnInit {
   bills$: Observable<Bill[]>;
   localisation$: Observable<Localisation[]>;
   expendElement$: Observable<Bill>;
+  sortBill$: Observable<SortBill>;
 
   constructor(private store: Store<fromBills.State>) {
     this.bills$ = store.pipe(select(fromBills.getBillCollection));
     this.localisation$ = store.pipe(select(fromLocalisation.getLocalisationCollection));
     this.expendElement$ = store.pipe(select(fromBills.getCollectionExpendElement));
+    this.sortBill$ = store.pipe(select(fromBills.getCollectionSortingBills));
   }
 
   expendElement(bill: Bill) {
@@ -47,6 +52,10 @@ export class CollectionPageComponent implements OnInit {
 
   removeBill(bill: Bill) {
     this.store.dispatch(new collection.RemoveBill(bill));
+  }
+
+  sortingBills(sortBill: SortBill) {
+    this.store.dispatch(new collection.SortingBills(sortBill));
   }
 
   ngOnInit() {

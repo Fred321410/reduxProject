@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Bill } from '../models/bill';
 import {Update} from '@ngrx/entity';
+import {SortBill} from '../models/sortBill';
 
 export enum CollectionActionTypes {
   AddBill = '[Collection] Add Bill',
@@ -16,7 +17,8 @@ export enum CollectionActionTypes {
   Load = '[Collection] Load Bills',
   LoadSuccess = '[Collection] Load Bills Success',
   LoadFail = '[Collection] Load Bills Fail',
-  ExpendBillRow = '[Collection] Expend Row'
+  ExpendBillRow = '[Collection] Expend Row',
+  SortingBills = '[Collection] Sorting Bills'
 }
 
 /**
@@ -110,6 +112,12 @@ export class ExpendBillRow implements Action {
   constructor(public payload: Bill) {}
 }
 
+export class SortingBills implements Action {
+  readonly type = CollectionActionTypes.SortingBills;
+
+  constructor(public payload: SortBill) {}
+}
+
 export type CollectionActions =
   | AddBill
   | AddBillSuccess
@@ -124,4 +132,5 @@ export type CollectionActions =
   | Load
   | LoadSuccess
   | LoadFail
-  | ExpendBillRow;
+  | ExpendBillRow
+  | SortingBills;
