@@ -5,6 +5,7 @@ import {Localisation} from '../../localisations/models/localisation';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatTableDataSource} from '@angular/material';
 import {SortBill} from '../models/sortBill';
+import {CheckDeviceService} from '../../core/services/ckech.device.service';
 
 @Component({
   selector: 'rp-bill-preview-list',
@@ -95,7 +96,6 @@ export class BillPreviewListComponent {
   @Input()
   set bills(bills: Bill[]) {
     this._bills = bills;
-    //this.dataSource = new MatTableDataSource<Bill>(bills);
     this.sortData(this.sortBill);
   }
   get sortBill(): SortBill {
@@ -131,7 +131,7 @@ export class BillPreviewListComponent {
   }
 
   getDisplayedColumns(): string[] {
-    const isMobile = false; // TODO Gestion de la taille de l'écran
+    const isMobile = CheckDeviceService.isMobile();
     return this.columnsToDisplay
       .filter(cd => !isMobile || cd.showMobile)
       .map(cd => cd.def);

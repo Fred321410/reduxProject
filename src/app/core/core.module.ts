@@ -9,6 +9,7 @@ import { LayoutComponent } from './components/layout';
 import { NavItemComponent } from './components/nav-item';
 import { SidenavComponent } from './components/sidenav';
 import { ToolbarComponent } from './components/toolbar';
+import {CheckDeviceService} from './services/ckech.device.service';
 
 
 export const COMPONENTS = [
@@ -29,7 +30,7 @@ export class CoreModule {
   static forRoot() {
     return {
       ngModule: CoreModule,
-      providers: [],
+      providers: [CheckDeviceService],
     };
   }
 }
