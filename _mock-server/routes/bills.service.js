@@ -24,6 +24,7 @@ service.getAll = function(cb) {
     }
     bills = results.map(r => {
       r.types = r.types.split(",");
+      r.isDebit = r.isDebit === 1;
       r.id = r.id.toString();
       return r;
     });
@@ -62,6 +63,7 @@ service.get = function(id, cb) {
     }
     bill = results.map(r => {
       r.types = r.types.split(",");
+      r.isDebit = r.isDebit === 1;
       r.id = r.id.toString();
       return r;
     })[0];
