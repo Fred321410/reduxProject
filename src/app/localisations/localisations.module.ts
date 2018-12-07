@@ -13,6 +13,7 @@ import {ComponentsModule} from './components';
 import { LocalisationsRoutingModule } from './localisations-routing.module';
 import {LocalisationAddPageComponent} from './containers/localisation-add-page';
 import {TypesModule} from '../types/types.module';
+import {LocalisationFilterComponent} from './components/localisation-filter';
 
 @NgModule({
   imports: [
@@ -32,8 +33,10 @@ import {TypesModule} from '../types/types.module';
   ],
   declarations: [
     CollectionPageComponent,
-    LocalisationAddPageComponent
+    LocalisationAddPageComponent,
+    LocalisationFilterComponent
   ],
+  entryComponents: [LocalisationFilterComponent],
   providers: [],
 })
 export class LocalisationsModule {}

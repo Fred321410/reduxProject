@@ -21,6 +21,7 @@ import {
   MatAutocompleteModule,
   MatRadioModule,
   MatSortModule,
+  MatDialogModule,
   MAT_DATE_LOCALE,
 } from '@angular/material';
 
@@ -48,6 +49,7 @@ import { MatMomentDateModule} from '@angular/material-moment-adapter';
     MatAutocompleteModule,
     MatRadioModule,
     MatSortModule,
+    MatDialogModule,
   ],
   exports: [
     MatInputModule,
@@ -70,6 +72,7 @@ import { MatMomentDateModule} from '@angular/material-moment-adapter';
     MatAutocompleteModule,
     MatRadioModule,
     MatSortModule,
+    MatDialogModule,
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
