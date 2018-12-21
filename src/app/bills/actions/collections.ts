@@ -18,6 +18,7 @@ export enum CollectionActionTypes {
   LoadSuccess = '[Collection] Load Bills Success',
   LoadFail = '[Collection] Load Bills Fail',
   ExpendBillRow = '[Collection] Expend Row',
+  ChangeStickyHeaders = '[Collection] Change Sticky Headers',
   SortingBills = '[Collection] Sorting Bills'
 }
 
@@ -112,6 +113,13 @@ export class ExpendBillRow implements Action {
   constructor(public payload: Bill) {}
 }
 
+export class ChangeStickyHeaders implements Action {
+  readonly type = CollectionActionTypes.ChangeStickyHeaders;
+
+  constructor(public payload: boolean) {}
+}
+
+
 export class SortingBills implements Action {
   readonly type = CollectionActionTypes.SortingBills;
 
@@ -133,4 +141,5 @@ export type CollectionActions =
   | LoadSuccess
   | LoadFail
   | ExpendBillRow
-  | SortingBills;
+  | SortingBills
+  | ChangeStickyHeaders;

@@ -19,8 +19,10 @@ import {SortBill} from '../models/sortBill';
     [bills]="bills$ | async"
     [localisations]="localisation$ | async"
     [expandedElement]="expendElement$ | async"
+    [stickyHeader]="stickyHeader$ | async"
     [sortBill]="sortBill$ | async"
     (expendElement)="expendElement($event)"
+    (changeStickyHeaders)="changeStickyHeaders($event)"
     (removeBill)="removeBill($event)"
     (sortingBills)="sortingBills($event)"></rp-bill-preview-list>
   `,
@@ -38,17 +40,24 @@ export class CollectionPageComponent implements OnInit {
   localisation$: Observable<Localisation[]>;
   expendElement$: Observable<Bill>;
   sortBill$: Observable<SortBill>;
+  stickyHeader$: Observable<boolean>;
 
   constructor(private store: Store<fromBills.State>) {
     this.bills$ = store.pipe(select(fromBills.getBillCollection));
     this.localisation$ = store.pipe(select(fromLocalisation.getLocalisationCollection));
     this.expendElement$ = store.pipe(select(fromBills.getCollectionExpendElement));
     this.sortBill$ = store.pipe(select(fromBills.getCollectionSortingBills));
+    this.stickyHeader$ = store.pipe(select(fromBills.getCollectionStickyHeaders));
   }
 
   expendElement(bill: Bill) {
     this.store.dispatch(new collection.ExpendBillRow(bill));
   }
+
+  changeStickyHeaders(stickyHeaders: boolean) {
+    this.store.dispatch(new collection.ChangeStickyHeaders(stickyHeaders));
+  }
+
 
   removeBill(bill: Bill) {
     this.store.dispatch(new collection.RemoveBill(bill));

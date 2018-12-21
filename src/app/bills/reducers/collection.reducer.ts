@@ -11,6 +11,7 @@ export interface State {
   ids: string[];
   expandedElement: Bill;
   sortBill: SortBill;
+  stickyHeader: boolean;
 }
 
 const initialState: State = {
@@ -18,7 +19,8 @@ const initialState: State = {
   loading: false,
   ids: [],
   expandedElement: null,
-  sortBill: {direction: 'asc', active: 'date'}
+  sortBill: {direction: 'asc', active: 'date'},
+  stickyHeader: false
 };
 
 export function reducer(
@@ -29,6 +31,7 @@ export function reducer(
     case CollectionActionTypes.Load: {
       return {
         ...state,
+        stickyHeader: true,
         loading: true,
       };
     }
@@ -45,14 +48,19 @@ export function reducer(
 
     case CollectionActionTypes.AddBillSuccess: {
       if (state.ids.indexOf(action.payload.id) > -1) {
-        return state;
+        return {
+          ...state,
+          stickyHeader: true,
+        };
       }
 
       return {
         ...state,
+        stickyHeader: true,
         ids: [...state.ids, action.payload.id],
       };
     }
+
     case CollectionActionTypes.RemoveBillFail: {
       if (state.ids.indexOf(action.payload.id) > -1) {
         return state;
@@ -68,6 +76,7 @@ export function reducer(
     case CollectionActionTypes.AddBillFail: {
       return {
         ...state,
+        stickyHeader: true,
         ids: state.ids.filter(id => id !== action.payload.id),
       };
     }
@@ -75,6 +84,12 @@ export function reducer(
       return {
         ...state,
         expandedElement: action.payload,
+      };
+    }
+    case CollectionActionTypes.ChangeStickyHeaders: {
+      return {
+        ...state,
+        stickyHeader: action.payload,
       };
     }
     case CollectionActionTypes.SortingBills: {
@@ -99,3 +114,5 @@ export const getIds = (state: State) => state.ids;
 export const getExpandedElement = (state: State) => state.expandedElement;
 
 export const getSortBill = (state: State) => state.sortBill;
+
+export const getStickyHeaders = (state: State) => state.stickyHeader;

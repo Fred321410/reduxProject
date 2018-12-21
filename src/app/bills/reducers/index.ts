@@ -102,6 +102,10 @@ export const getCollectionExpendElement = createSelector(
   getCollectionState,
   fromCollection.getExpandedElement
 );
+export const getCollectionStickyHeaders = createSelector(
+  getCollectionState,
+  fromCollection.getStickyHeaders
+);
 export const getCollectionSortingBills = createSelector(
   getCollectionState,
   fromCollection.getSortBill

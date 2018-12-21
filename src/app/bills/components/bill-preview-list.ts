@@ -12,7 +12,7 @@ import {CheckDeviceService} from '../../core/services/ckech.device.service';
   animations: [detailExpandAnimation],
   template: `
     <div class="container-bill">
-      <button style="margin-bottom: 15px" mat-raised-button routerLink="add"><mat-icon>add</mat-icon>Ajouter</button>
+      <button style="margin-bottom: 15px" mat-raised-button (click)="add()"><mat-icon>add</mat-icon>Ajouter</button>
       <table mat-table [dataSource]='dataSource' matSort (matSortChange)="sortingBills.emit($event)"
              multiTemplateDataRows class='mat-elevation-z8'>
         <ng-container matColumnDef="date">
@@ -74,7 +74,7 @@ import {CheckDeviceService} from '../../core/services/ckech.device.service';
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: true"></tr>
+        <tr mat-header-row *matHeaderRowDef="getDisplayedColumns(); sticky: getStickyHeaders()"></tr>
         <tr mat-row *matRowDef="let element; columns: getDisplayedColumns();"
             class="example-element-row"
             [class.example-expanded-row]="expandedElement === element"
@@ -84,7 +84,7 @@ import {CheckDeviceService} from '../../core/services/ckech.device.service';
 
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-        <tr mat-footer-row *matFooterRowDef="getDisplayedColumns(); sticky: true"></tr>
+        <tr mat-footer-row *matFooterRowDef="getDisplayedColumns(); sticky: getStickyHeaders()"></tr>
       </table>
     </div>
     <div>
@@ -116,7 +116,9 @@ export class BillPreviewListComponent {
   }
   @Input() localisations: Localisation[];
   @Input() expandedElement: Bill;
+  @Input() stickyHeader: boolean;
   @Output() expendElement = new EventEmitter<Bill>();
+  @Output() changeStickyHeaders = new EventEmitter<boolean>();
   @Output() sortingBills = new EventEmitter<SortBill>();
   @Output() removeBill = new EventEmitter<Bill>();
   dataSource: MatTableDataSource<Bill>;
@@ -133,6 +135,11 @@ export class BillPreviewListComponent {
     this.router.navigate(['add'], { relativeTo: this.route, queryParams: { id: bill.id} });
   }
 
+  add() {
+    this.changeStickyHeaders.emit(false);
+    this.router.navigate(['add'], { relativeTo: this.route});
+  }
+
   deleteBill(bill: Bill) {
     this.removeBill.emit(bill);
   }
@@ -142,6 +149,10 @@ export class BillPreviewListComponent {
     return this.columnsToDisplay
       .filter(cd => !isMobile || cd.showMobile)
       .map(cd => cd.def);
+  }
+
+  getStickyHeaders(): boolean {
+    return this.stickyHeader;
   }
 
   sortData(event: SortBill): void {

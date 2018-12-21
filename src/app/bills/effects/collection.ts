@@ -11,13 +11,17 @@ import {
   CollectionActionTypes,
   AddBill,
   AddBillSuccess,
-  AddBillFail, UpdateBill, UpdateBillSuccess, UpdateBillFail, RemoveBill, RemoveBillFail, RemoveBillSuccess,
+  AddBillFail,
+  UpdateBill,
+  UpdateBillSuccess,
+  UpdateBillFail,
+  RemoveBill,
+  RemoveBillFail,
+  RemoveBillSuccess, ChangeStickyHeaders,
 } from '../actions/collections';
 import { Bill } from '../models/bill';
-import { exhaustMap, map, catchError, tap } from 'rxjs/operators';
+import {exhaustMap, map, catchError, tap, switchMap} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {UpdateLocalisation, UpdateLocalisationFail, UpdateLocalisationSuccess} from '../../localisations/actions/collections';
-import {Localisation} from '../../localisations/models/localisation';
 
 
 @Injectable()
@@ -90,9 +94,10 @@ export class CollectionEffects {
     tap(() => this.router.navigate(['collection/bills']))
   );
 
-  @Effect({ dispatch: false })
-  addBillCancel$ = this.actions$.pipe(
+  @Effect()
+  addBillCancel$: Observable<Action> = this.actions$.pipe(
     ofType(CollectionActionTypes.AddBillCancel),
+    map((stickyHeaders: ChangeStickyHeaders) => new ChangeStickyHeaders(true)),
     tap(() => this.router.navigate(['../']))
   );
 
